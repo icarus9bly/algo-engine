@@ -1,5 +1,6 @@
 import type { AlgoEvent, Structure } from '../engine/types';
 import { ArrayView } from './ArrayView';
+import { GridView } from './GridView';
 import { LinkedListView } from './LinkedListView';
 import { TreeView } from './TreeView';
 
@@ -33,6 +34,15 @@ export function StructureView({ structures, event }: Props) {
               case 'array':
                 return (
                   <ArrayView
+                    key={structure.id}
+                    structure={structure}
+                    event={event}
+                    active={active}
+                  />
+                );
+              case 'grid':
+                return (
+                  <GridView
                     key={structure.id}
                     structure={structure}
                     event={event}

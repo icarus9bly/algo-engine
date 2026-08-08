@@ -412,6 +412,50 @@ body {
   stroke-width: 1.5;
 }
 
+/* ---------- grids ---------- */
+
+.grid__scroll {
+  overflow-x: auto;
+}
+
+.grid {
+  display: inline-grid;
+  gap: 4px;
+}
+
+.gcell {
+  position: relative;
+  min-width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel-alt);
+  font-family: var(--mono);
+  font-size: 13px;
+  padding: 0 6px;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.gcell--compare { border-color: var(--compare); background: rgba(242, 193, 78, 0.16); color: #ffe6a8; }
+.gcell--swap    { border-color: var(--swap);    background: rgba(197, 138, 249, 0.18); color: #ecd6ff; }
+.gcell--read    { border-color: var(--read);    background: rgba(110, 168, 254, 0.16); color: #cfe0ff; }
+.gcell--write   { border-color: var(--write);   background: rgba(79, 209, 165, 0.16);  color: #bdf3e2; }
+.gcell--found   { border-color: var(--found);   background: rgba(74, 222, 128, 0.22);  color: #d6ffe3; }
+.gcell--settle,
+.gcell--settled { border-color: var(--settled); background: rgba(47, 109, 85, 0.22);   color: #a9d8c4; }
+.gcell--note    { border-color: var(--text-faint); }
+
+.gcell__pointer {
+  position: absolute;
+  bottom: -2px;
+  right: 2px;
+  font-size: 9px;
+  color: var(--accent);
+}
+
 .badge {
   font-family: var(--mono);
   font-size: 10px;

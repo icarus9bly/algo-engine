@@ -17,7 +17,22 @@ const arr = (structures: Structure[], id: string) => {
 };
 
 /** Positions a structure has, whatever its kind — used for bounds checking. */
-const sizeOf = (s: Structure) => (s.kind === 'array' ? s.values.length : s.nodes.length);
+const sizeOf = (s: Structure) => {
+  if (s.kind === 'array') return s.values.length;
+  if (s.kind === 'grid') return s.cells.length;
+  return s.nodes.length;
+};
+
+/** A grid rendered as `row; row; row`, matching the input notation. */
+const gridOf = (structures: Structure[], id: string): string => {
+  const s = structures.find((st) => st.id === id);
+  if (!s || s.kind !== 'grid') return '';
+  const rows: string[] = [];
+  for (let r = 0; r < s.rows; r++) {
+    rows.push(s.cells.slice(r * s.cols, (r + 1) * s.cols).join(','));
+  }
+  return rows.join('; ');
+};
 
 /**
  * Level-order rendering of a tree, with `null` for holes — the same notation
@@ -236,6 +251,39 @@ const cases: Case[] = [
   { id: 'find-median-from-data-stream', input: { nums: [1, 2, 3, 4, 5, 6, 7] }, expect: '1,1.5,2,2.5,3,3.5,4', got: (v) => (v.medians as number[]).join(',') },
   { id: 'find-median-from-data-stream', input: { nums: [7, 6, 5, 4, 3, 2, 1] }, expect: '7,6.5,6,5.5,5,4.5,4', got: (v) => (v.medians as number[]).join(',') },
   { id: 'find-median-from-data-stream', input: { nums: [2] }, expect: '2', got: (v) => (v.medians as number[]).join(',') },
+  // Math & Geometry
+  { id: 'rotate-image', input: { matrix: '1,2,3; 4,5,6; 7,8,9' }, expect: '7,4,1; 8,5,2; 9,6,3', got: (_v, s) => gridOf(s, 'matrix') },
+  { id: 'rotate-image', input: { matrix: '1,2; 3,4' }, expect: '3,1; 4,2', got: (_v, s) => gridOf(s, 'matrix') },
+  { id: 'rotate-image', input: { matrix: '5' }, expect: '5', got: (_v, s) => gridOf(s, 'matrix') },
+  { id: 'rotate-image', input: { matrix: '5,1,9,11; 2,4,8,10; 13,3,6,7; 15,14,12,16' }, expect: '15,13,2,5; 14,3,4,1; 12,6,8,9; 16,7,10,11', got: (_v, s) => gridOf(s, 'matrix') },
+  { id: 'spiral-matrix', input: { matrix: '1,2,3,4; 5,6,7,8; 9,10,11,12' }, expect: '1,2,3,4,8,12,11,10,9,5,6,7', got: (_v, s) => arr(s, 'res').join(',') },
+  { id: 'spiral-matrix', input: { matrix: '1,2,3; 4,5,6; 7,8,9' }, expect: '1,2,3,6,9,8,7,4,5', got: (_v, s) => arr(s, 'res').join(',') },
+  { id: 'spiral-matrix', input: { matrix: '7' }, expect: '7', got: (_v, s) => arr(s, 'res').join(',') },
+  { id: 'spiral-matrix', input: { matrix: '1; 2; 3' }, expect: '1,2,3', got: (_v, s) => arr(s, 'res').join(',') },
+  { id: 'set-matrix-zeroes', input: { matrix: '1,1,1; 1,0,1; 1,1,1' }, expect: '1,0,1; 0,0,0; 1,0,1', got: (_v, s) => gridOf(s, 'matrix') },
+  { id: 'set-matrix-zeroes', input: { matrix: '0,1,2,0; 3,4,5,2; 1,3,1,5' }, expect: '0,0,0,0; 0,4,5,0; 0,3,1,0', got: (_v, s) => gridOf(s, 'matrix') },
+  { id: 'set-matrix-zeroes', input: { matrix: '1,2,3; 4,5,6' }, expect: '1,2,3; 4,5,6', got: (_v, s) => gridOf(s, 'matrix') },
+  // 2-D Dynamic Programming
+  { id: 'unique-paths', input: { m: 3, n: 7 }, expect: 28, got: (v) => v.result },
+  { id: 'unique-paths', input: { m: 3, n: 2 }, expect: 3, got: (v) => v.result },
+  { id: 'unique-paths', input: { m: 1, n: 1 }, expect: 1, got: (v) => v.result },
+  { id: 'longest-common-subsequence', input: { a: 'abcde', b: 'ace' }, expect: 3, got: (v) => v.result },
+  { id: 'longest-common-subsequence', input: { a: 'abc', b: 'abc' }, expect: 3, got: (v) => v.result },
+  { id: 'longest-common-subsequence', input: { a: 'abc', b: 'def' }, expect: 0, got: (v) => v.result },
+  { id: 'longest-common-subsequence', input: { a: '', b: 'abc' }, expect: 0, got: (v) => v.result },
+  // Backtracking
+  { id: 'word-search', input: { board: 'ABCE; SFCS; ADEE', word: 'ABCCED' }, expect: true, got: (v) => v.result },
+  { id: 'word-search', input: { board: 'ABCE; SFCS; ADEE', word: 'SEE' }, expect: true, got: (v) => v.result },
+  { id: 'word-search', input: { board: 'ABCE; SFCS; ADEE', word: 'ABCB' }, expect: false, got: (v) => v.result },
+  { id: 'word-search', input: { board: 'AB; CD', word: 'ABDC' }, expect: true, got: (v) => v.result },
+  // Graphs (grid-based)
+  { id: 'number-of-islands', input: { grid: '11000; 11000; 00100; 00011' }, expect: 3, got: (v) => v.result },
+  { id: 'number-of-islands', input: { grid: '11110; 11010; 11000; 00000' }, expect: 1, got: (v) => v.result },
+  { id: 'number-of-islands', input: { grid: '000; 000' }, expect: 0, got: (v) => v.result },
+  { id: 'number-of-islands', input: { grid: '101; 010; 101' }, expect: 5, got: (v) => v.result },
+  { id: 'pacific-atlantic', input: { heights: '1,2,3; 8,9,4; 7,6,5' }, expect: '(0,2) (1,0) (1,1) (1,2) (2,0) (2,1) (2,2)', got: (v) => (v.result as string[]).join(' ') },
+  { id: 'pacific-atlantic', input: { heights: '1' }, expect: '(0,0)', got: (v) => (v.result as string[]).join(' ') },
+  { id: 'pacific-atlantic', input: { heights: '3,3; 3,3' }, expect: '(0,0) (0,1) (1,0) (1,1)', got: (v) => (v.result as string[]).join(' ') },
 ];
 
 let failures = 0;

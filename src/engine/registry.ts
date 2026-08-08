@@ -19,6 +19,7 @@ import { jumpGame } from './algorithms/jumpGame';
 import { kthSmallestBST } from './algorithms/kthSmallestBST';
 import { lcaOfBST } from './algorithms/lcaOfBST';
 import { levelOrderTraversal } from './algorithms/levelOrderTraversal';
+import { longestCommonSubsequence } from './algorithms/longestCommonSubsequence';
 import { longestConsecutive } from './algorithms/longestConsecutive';
 import { longestIncreasingSubsequence } from './algorithms/longestIncreasingSubsequence';
 import { longestPalindromicSubstring } from './algorithms/longestPalindromicSubstring';
@@ -32,26 +33,33 @@ import { mergeKSortedLists } from './algorithms/mergeKSortedLists';
 import { mergeTwoSortedLists } from './algorithms/mergeTwoSortedLists';
 import { minimumWindowSubstring } from './algorithms/minimumWindowSubstring';
 import { missingNumber } from './algorithms/missingNumber';
+import { numberOfIslands } from './algorithms/numberOfIslands';
 import { numberOfOneBits } from './algorithms/numberOfOneBits';
+import { pacificAtlantic } from './algorithms/pacificAtlantic';
 import { palindromicSubstrings } from './algorithms/palindromicSubstrings';
 import { productExceptSelf } from './algorithms/productExceptSelf';
 import { removeNthFromEnd } from './algorithms/removeNthFromEnd';
 import { reorderList } from './algorithms/reorderList';
 import { reverseBits } from './algorithms/reverseBits';
 import { reverseLinkedList } from './algorithms/reverseLinkedList';
+import { rotateImage } from './algorithms/rotateImage';
 import { sameTree } from './algorithms/sameTree';
 import { serializeDeserializeTree } from './algorithms/serializeDeserializeTree';
+import { setMatrixZeroes } from './algorithms/setMatrixZeroes';
+import { spiralMatrix } from './algorithms/spiralMatrix';
 import { subtreeOfAnotherTree } from './algorithms/subtreeOfAnotherTree';
 import { searchRotated } from './algorithms/searchRotated';
 import { sumOfTwoIntegers } from './algorithms/sumOfTwoIntegers';
 import { threeSum } from './algorithms/threeSum';
 import { topKFrequent } from './algorithms/topKFrequent';
 import { twoSum } from './algorithms/twoSum';
+import { uniquePaths } from './algorithms/uniquePaths';
 import { validAnagram } from './algorithms/validAnagram';
 import { validateBST } from './algorithms/validateBST';
 import { validParentheses } from './algorithms/validParentheses';
 import { validPalindrome } from './algorithms/validPalindrome';
 import { wordBreak } from './algorithms/wordBreak';
+import { wordSearch } from './algorithms/wordSearch';
 import type { AlgorithmDef } from './types';
 
 /**
@@ -114,9 +122,21 @@ export const algorithms: AlgorithmDef[] = [
   maxProductSubarray,
   wordBreak,
   longestIncreasingSubsequence,
+  // 2-D Dynamic Programming
+  uniquePaths,
+  longestCommonSubsequence,
   // Greedy
   maximumSubarray,
   jumpGame,
+  // Backtracking
+  wordSearch,
+  // Graphs
+  numberOfIslands,
+  pacificAtlantic,
+  // Math & Geometry
+  rotateImage,
+  spiralMatrix,
+  setMatrixZeroes,
   // Bit Manipulation
   numberOfOneBits,
   countingBits,

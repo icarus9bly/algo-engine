@@ -5,6 +5,7 @@ import type {
   EventType,
   ListNode,
   ListStructure,
+  GridStructure,
   Structure,
   TreeNode,
   TreeStructure,
@@ -230,6 +231,70 @@ export class TracedTree {
   }
 }
 
+/** A rectangular matrix, addressed by flat index or by row/column. */
+export class TracedGrid {
+  readonly settled = new Set<number>();
+  readonly id: string;
+  readonly label: string;
+  readonly rows: number;
+  readonly cols: number;
+  readonly cells: Cell[];
+  readonly pointerNames: string[] | null;
+
+  constructor(
+    id: string,
+    label: string,
+    cells: Cell[][],
+    pointerNames: string[] | null = null,
+  ) {
+    this.id = id;
+    this.label = label;
+    this.rows = cells.length;
+    this.cols = cells[0]?.length ?? 0;
+    this.cells = cells.flat();
+    this.pointerNames = pointerNames;
+  }
+
+  /** Flat index of a cell. */
+  at(r: number, c: number): number {
+    return r * this.cols + c;
+  }
+
+  inBounds(r: number, c: number): boolean {
+    return r >= 0 && c >= 0 && r < this.rows && c < this.cols;
+  }
+
+  value(r: number, c: number): Cell {
+    return this.cells[this.at(r, c)];
+  }
+
+  num(r: number, c: number): number {
+    return this.cells[this.at(r, c)] as number;
+  }
+
+  set(r: number, c: number, v: Cell): void {
+    this.cells[this.at(r, c)] = v;
+  }
+
+  /** Every flat index in the grid — handy for a closing settle. */
+  allIndices(): number[] {
+    return this.cells.map((_, i) => i);
+  }
+
+  snapshot(): GridStructure {
+    return {
+      kind: 'grid',
+      id: this.id,
+      label: this.label,
+      rows: this.rows,
+      cols: this.cols,
+      cells: [...this.cells],
+      settled: [...this.settled].sort((a, b) => a - b),
+      pointerNames: this.pointerNames,
+    };
+  }
+}
+
 export interface EmitOpts {
   i?: number;
   j?: number;
@@ -283,6 +348,31 @@ export class Tracer {
     const list = new TracedList(id, label, pointerNames);
     this.structures.push(list);
     return list;
+  }
+
+  /** Registers a matrix structure. */
+  grid(
+    id: string,
+    cells: Cell[][],
+    label = id,
+    pointerNames: string[] | null = null,
+  ): TracedGrid {
+    const grid = new TracedGrid(id, label, cells.map((row) => [...row]), pointerNames);
+    this.structures.push(grid);
+    return grid;
+  }
+
+  /** Writes one cell of a grid, then emits with that cell highlighted. */
+  writeCell(
+    line: number,
+    grid: TracedGrid,
+    r: number,
+    c: number,
+    value: Cell,
+    opts: EmitOpts = {},
+  ): AlgoEvent {
+    grid.set(r, c, value);
+    return this.emit('write', line, { ...opts, target: grid, i: grid.at(r, c) });
   }
 
   /** Registers a binary tree structure. */
@@ -396,7 +486,7 @@ export class Tracer {
   /** Marks positions as permanently final, then emits. */
   settle(
     line: number,
-    target: TracedArray | TracedList | TracedTree,
+    target: TracedArray | TracedList | TracedTree | TracedGrid,
     indices: number[],
     opts: EmitOpts = {},
   ): AlgoEvent {

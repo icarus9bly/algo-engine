@@ -108,13 +108,33 @@ export interface TreeStructure {
 }
 
 /**
+ * A rectangular matrix. Cells are stored row-major and addressed by the flat
+ * index `row * cols + col`, so `i`/`j`/`indices` stay numeric here too and
+ * every renderer highlights positions the same way.
+ */
+export interface GridStructure {
+  kind: 'grid';
+  id: string;
+  label: string;
+  rows: number;
+  cols: number;
+  cells: Cell[];
+  settled: number[];
+  pointerNames: string[] | null;
+}
+
+/**
  * A data structure the algorithm is working on, snapshotted at one event.
  *
- * Graphs and DP grids join this union as they arrive; each new `kind` gets its
+ * Graphs and tries join this union as they arrive; each new `kind` gets its
  * own small renderer, and `StructureView` dispatches on the tag. Nothing else
  * in the engine needs to know the difference.
  */
-export type Structure = ArrayStructure | ListStructure | TreeStructure;
+export type Structure =
+  | ArrayStructure
+  | ListStructure
+  | TreeStructure
+  | GridStructure;
 
 export interface AlgoEvent {
   type: EventType;
