@@ -48,7 +48,11 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
 
     let prev = 0;
     let curr = 0;
-    yield t.note(8, { indices: range, vars: { prev, curr } });
+    yield t.note(8, {
+      indices: range,
+      vars: { prev, curr },
+      note: 'Run the plain House Robber scan over just this stretch.',
+    });
 
     for (let i = lo; i <= hi; i++) {
       const take = prev + a.num(i);

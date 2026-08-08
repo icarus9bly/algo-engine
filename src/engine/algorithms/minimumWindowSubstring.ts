@@ -50,7 +50,11 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   let bestR = -1;
   let bestLen = Infinity;
   let l = 0;
-  yield tr.note(5, { target: sArr, vars: { have, required, l, window: {} } });
+  yield tr.note(5, {
+    target: sArr,
+    vars: { have, required, l, window: {} },
+    note: `Nothing covered yet — ${required} character${required === 1 ? '' : 's'} to go.`,
+  });
 
   for (let r = 0; r < sArr.length; r++) {
     const c = sArr.at(r) as string;

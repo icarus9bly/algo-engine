@@ -35,7 +35,11 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
 
   let l = 0;
   let r = a.length - 1;
-  yield t.note(2, { indices: span(l, r), vars: { l, r } });
+  yield t.note(2, {
+    indices: span(l, r),
+    vars: { l, r },
+    note: `If ${target} is here at all, it is somewhere in this range.`,
+  });
 
   while (l <= r) {
     const mid = Math.floor((l + r) / 2);

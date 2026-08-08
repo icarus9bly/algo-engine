@@ -31,11 +31,15 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   let best = a.num(0);
   let curMax = 1;
   let curMin = 1;
-  yield t.note(2, { i: 0, vars: { best, curMax, curMin } });
+  yield t.note(2, {
+    i: 0,
+    vars: { best, curMax, curMin },
+    note: 'Carry both the largest and the smallest running product.',
+  });
 
   for (let i = 0; i < a.length; i++) {
     const n = a.num(i);
-    yield t.read(4, { i, vars: { i, n } });
+    yield t.read(4, { i, vars: { i, n }, note: `Fold nums[${i}] = ${n} into the running products.` });
 
     const candidate = curMax * n;
     const nextMax = Math.max(n, candidate, curMin * n);

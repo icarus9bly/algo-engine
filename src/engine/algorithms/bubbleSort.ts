@@ -27,7 +27,10 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
     yield t.note(2, { vars: { end }, note: `Pass over 0..${end}.` });
 
     let swapped = false;
-    yield t.note(3, { vars: { swapped } });
+    yield t.note(3, {
+      vars: { swapped },
+      note: 'Track whether this pass changes anything — if not, the array is already sorted.',
+    });
 
     for (let j = 0; j < end; j++) {
       yield t.compare(5, {
@@ -40,7 +43,12 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
       if (a.num(j) > a.num(j + 1)) {
         yield t.swap(6, a, j, j + 1, { note: `Swap ${a.num(j)} and ${a.num(j + 1)}.` });
         swapped = true;
-        yield t.note(7, { i: j, j: j + 1, vars: { swapped } });
+        yield t.note(7, {
+          i: j,
+          j: j + 1,
+          vars: { swapped },
+          note: 'This pass has changed something, so another one is needed.',
+        });
       }
     }
 
@@ -56,7 +64,10 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   }
 
   if (a.length > 0) {
-    yield t.settle(12, a, [0], { vars: { j: undefined, end: undefined, swapped: undefined } });
+    yield t.settle(12, a, [0], {
+      vars: { j: undefined, end: undefined, swapped: undefined },
+      note: 'With everything above it final, position 0 is final too.',
+    });
   }
   yield t.note(12, { note: 'Sorted.' });
 }

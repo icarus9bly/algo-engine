@@ -29,7 +29,7 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   yield t.note(2, { vars: { set: [...set] }, note: 'A set makes "is n-1 present?" O(1).' });
 
   let best = 0;
-  yield t.note(3, { vars: { best } });
+  yield t.note(3, { vars: { best }, note: 'No run measured yet.' });
 
   for (let i = 0; i < a.length; i++) {
     const n = a.num(i);

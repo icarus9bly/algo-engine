@@ -40,7 +40,7 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   });
 
   const res: string[] = [];
-  yield t.note(3, { vars: { res: [] } });
+  yield t.note(3, { vars: { res: [] }, note: 'No triples found yet.' });
 
   for (let i = 0; i < a.length - 2; i++) {
     yield t.read(4, { i, vars: { i, l: undefined, r: undefined, sum: undefined }, note: `Anchor at nums[${i}] = ${a.num(i)}.` });

@@ -373,8 +373,12 @@ for (const c of cases) {
     return idxs.some((n) => n < 0 || n >= sizeOf(st));
   });
 
+  // Every frame must narrate itself; a blank note shows the placeholder hint
+  // in the status bar, which reads as a broken frame.
+  const blank = events.filter((e) => !e.note).length;
+
   const actual = last ? c.got(last.vars as Vars, last.structures, events) : undefined;
-  const ok = !err && !badLine && !badIdx && String(actual) === String(c.expect);
+  const ok = !err && !badLine && !badIdx && !blank && String(actual) === String(c.expect);
   if (!ok) failures++;
 
   console.log(
@@ -385,6 +389,7 @@ for (const c of cases) {
       err ? `${err} ` : '',
       badLine ? `BAD-LINE:${badLine.line} ` : '',
       badIdx ? `BAD-INDEX:${JSON.stringify([badIdx.i, badIdx.j, badIdx.indices])} ` : '',
+      blank ? `BLANK-NOTES:${blank} ` : '',
       ok ? '' : `expected ${JSON.stringify(c.expect)} got ${JSON.stringify(actual)} `,
       `in ${JSON.stringify(c.input)}`,
     ].join(''),

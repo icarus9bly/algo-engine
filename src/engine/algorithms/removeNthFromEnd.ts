@@ -32,7 +32,11 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   });
 
   let right: number | null = head;
-  yield t.note(2, { i: head ?? undefined, vars: { head: head ?? undefined, right: right ?? undefined } });
+  yield t.note(2, {
+    i: head ?? undefined,
+    vars: { head: head ?? undefined, right: right ?? undefined },
+    note: 'Send one pointer ahead first; the gap between them does the counting.',
+  });
 
   for (let k = 0; k < n; k++) {
     right = list.next(right!);
@@ -58,7 +62,11 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   }
 
   let left: number = head!;
-  yield t.note(5, { i: left, vars: { left, k: undefined } });
+  yield t.note(5, {
+    i: left,
+    vars: { left, k: undefined },
+    note: `The gap is now ${n} wide; walk both pointers until the front one hits the tail.`,
+  });
 
   while (list.next(right!) !== null) {
     left = list.next(left)!;

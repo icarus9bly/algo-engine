@@ -26,7 +26,7 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   yield t.note(1, { note: `Find the ${k} most frequent values.` });
 
   const count: Record<string, number> = {};
-  yield t.note(2, { vars: { count: {} } });
+  yield t.note(2, { vars: { count: {} }, note: 'Tally how often each value appears.' });
 
   for (let i = 0; i < a.length; i++) {
     const key = String(a.num(i));
@@ -60,7 +60,11 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   }
 
   const res: number[] = [];
-  yield t.note(6, { target: buckets, vars: { res: [] } });
+  yield t.note(6, {
+    target: buckets,
+    vars: { res: [] },
+    note: `Now read the buckets from the highest frequency down, taking the first ${k}.`,
+  });
 
   for (let f = buckets.length - 1; f > 0 && res.length < k; f--) {
     const cell = String(buckets.at(f));

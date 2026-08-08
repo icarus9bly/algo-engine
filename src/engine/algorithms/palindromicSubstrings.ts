@@ -29,7 +29,7 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   yield t.note(1, { note: 'Count every palindromic substring by expanding from each centre.' });
 
   let count = 0;
-  yield t.note(2, { vars: { count } });
+  yield t.note(2, { vars: { count }, note: 'Nothing counted yet.' });
 
   for (let c = 0; c < a.length; c++) {
     for (const [startL, startR] of [[c, c], [c, c + 1]] as [number, number][]) {
@@ -37,7 +37,13 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
 
       let l = startL;
       let r = startR;
-      yield t.note(5, { indices: span(l, r), vars: { c, l, r } });
+      yield t.note(5, {
+        indices: span(l, r),
+        vars: { c, l, r },
+        note: l === r
+          ? `Expand outward from the single character at ${c}.`
+          : `Expand outward from the gap between ${l} and ${r}.`,
+      });
 
       while (l >= 0 && r < a.length && a.at(l) === a.at(r)) {
         count++;

@@ -29,7 +29,11 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   });
 
   let curr = root;
-  yield t.note(2, { i: curr ?? undefined, vars: { curr: curr ?? undefined } });
+  yield t.note(2, {
+    i: curr ?? undefined,
+    vars: { curr: curr ?? undefined },
+    note: 'Start at the root and let the BST ordering pick the direction.',
+  });
 
   while (curr !== null) {
     const v = tree.num(curr);
@@ -37,11 +41,23 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
     if (p > v && q > v) {
       yield t.compare(4, { i: curr, note: `Both ${p} and ${q} are bigger than ${v} — go right.` });
       curr = tree.right(curr);
-      yield t.note(4, { i: curr ?? undefined, vars: { curr: curr ?? undefined } });
+      yield t.note(4, {
+        i: curr ?? undefined,
+        vars: { curr: curr ?? undefined },
+        note: curr === null
+          ? 'Ran off the bottom of the tree.'
+          : `Move right to ${tree.value(curr)}; the whole left subtree is now ruled out.`,
+      });
     } else if (p < v && q < v) {
       yield t.compare(5, { i: curr, note: `Both ${p} and ${q} are smaller than ${v} — go left.` });
       curr = tree.left(curr);
-      yield t.note(5, { i: curr ?? undefined, vars: { curr: curr ?? undefined } });
+      yield t.note(5, {
+        i: curr ?? undefined,
+        vars: { curr: curr ?? undefined },
+        note: curr === null
+          ? 'Ran off the bottom of the tree.'
+          : `Move left to ${tree.value(curr)}; the whole right subtree is now ruled out.`,
+      });
     } else {
       yield t.found(6, {
         i: curr,

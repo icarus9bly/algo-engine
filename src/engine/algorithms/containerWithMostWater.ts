@@ -45,14 +45,14 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
         note: `The left wall (${a.num(l)}) is the shorter one — only moving it can help.`,
       });
       l++;
-      yield t.note(6, { vars: { l } });
+      yield t.note(6, { vars: { l }, note: `The left wall moves in to index ${l}.` });
     } else {
       yield t.read(7, {
         i: r,
         note: `The right wall (${a.num(r)}) is no taller — move it in.`,
       });
       r--;
-      yield t.note(7, { vars: { r } });
+      yield t.note(7, { vars: { r }, note: `The right wall moves in to index ${r}.` });
     }
   }
 

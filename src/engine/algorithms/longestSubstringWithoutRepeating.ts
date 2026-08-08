@@ -30,7 +30,10 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   const seen = new Set<string>();
   let l = 0;
   let best = 0;
-  yield t.note(3, { vars: { l, best, seen: [] } });
+  yield t.note(3, {
+    vars: { l, best, seen: [] },
+    note: 'The window starts empty at the left edge.',
+  });
 
   for (let r = 0; r < a.length; r++) {
     const ch = a.at(r) as string;
@@ -46,7 +49,11 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
         note: `'${ch}' is already inside — drop '${gone}' from the left.`,
       });
       l++;
-      yield t.note(7, { indices: window(l, r), vars: { l } });
+      yield t.note(7, {
+        indices: window(l, r),
+        vars: { l },
+        note: `The left edge moves to ${l}, shrinking the window.`,
+      });
     }
 
     seen.add(ch);

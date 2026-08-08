@@ -28,7 +28,7 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   });
 
   let count = 0;
-  yield t.note(2, { vars: { count } });
+  yield t.note(2, { vars: { count }, note: 'No set bits counted yet.' });
 
   while (n !== 0) {
     const lowest = Math.log2(n & -n);

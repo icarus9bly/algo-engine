@@ -99,7 +99,10 @@ function* mergeTwo(
   let head: number | null = null;
   let tail: number | null = null;
 
-  yield t.note(13, { vars: { a: a ?? undefined, b: b ?? undefined, head: undefined, tail: undefined } });
+  yield t.note(13, {
+    vars: { a: a ?? undefined, b: b ?? undefined, head: undefined, tail: undefined },
+    note: 'Merge this pair the same way as two lists, by relinking their nodes.',
+  });
 
   while (a !== null && b !== null) {
     const takeA = list.num(a) <= list.num(b);
@@ -128,7 +131,11 @@ function* mergeTwo(
     }
 
     tail = pick;
-    yield t.note(21, { i: tail, vars: { tail } });
+    yield t.note(21, {
+      i: tail,
+      vars: { tail },
+      note: `${list.value(tail)} is now the tail of this merge.`,
+    });
   }
 
   const rest = a !== null ? a : b;

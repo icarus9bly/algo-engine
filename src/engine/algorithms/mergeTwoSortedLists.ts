@@ -31,7 +31,10 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   yield t.note(1, {
     note: 'Both chains share one set of nodes — merging only rewires arrows, it never copies.',
   });
-  yield t.note(2, { vars: { l1: l1 ?? undefined, l2: l2 ?? undefined } });
+  yield t.note(2, {
+    vars: { l1: l1 ?? undefined, l2: l2 ?? undefined },
+    note: 'One cursor per list; the merged list is built by relinking, not copying.',
+  });
 
   let head: number | null = null;
   let tail: number | null = null;
@@ -63,7 +66,11 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
     }
 
     tail = pick;
-    yield t.note(10, { i: tail, vars: { tail } });
+    yield t.note(10, {
+      i: tail,
+      vars: { tail },
+      note: `${list.value(tail)} is now the tail of the merged list.`,
+    });
   }
 
   const rest = l1 !== null ? l1 : l2;

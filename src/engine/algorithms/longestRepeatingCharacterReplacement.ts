@@ -36,7 +36,10 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   let l = 0;
   let best = 0;
   let maxf = 0;
-  yield t.note(3, { vars: { l, best, maxf, count: {} } });
+  yield t.note(3, {
+    vars: { l, best, maxf, count: {} },
+    note: 'The window starts empty; maxf tracks its most common character.',
+  });
 
   for (let r = 0; r < a.length; r++) {
     const ch = a.at(r) as string;
@@ -80,7 +83,11 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
         note: `Valid window of ${best}: "${a.values.slice(l, r + 1).join('')}".`,
       });
     } else {
-      yield t.note(11, { indices: window(l, r), vars: { best } });
+      yield t.note(11, {
+        indices: window(l, r),
+        vars: { best },
+        note: `This window is ${length} long, which does not beat ${best}.`,
+      });
     }
   }
 

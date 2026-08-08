@@ -48,7 +48,11 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   // Phase 1 — find the middle.
   let slow: number = head;
   let fast: number | null = list.next(head);
-  yield t.note(2, { i: head, vars: { head, slow, fast: fast ?? undefined } });
+  yield t.note(2, {
+    i: head,
+    vars: { head, slow, fast: fast ?? undefined },
+    note: 'Two pointers at different speeds will find the middle in one pass.',
+  });
 
   while (fast !== null && list.next(fast) !== null) {
     slow = list.next(slow)!;
@@ -74,7 +78,11 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   let prev: number | null = null;
   while (second !== null) {
     const nxt: number | null = list.next(second);
-    yield t.read(11, { i: second, vars: { nxt: nxt ?? undefined } });
+    yield t.read(11, {
+      i: second,
+      vars: { nxt: nxt ?? undefined },
+      note: `Remember what follows ${list.value(second)} before overwriting its arrow.`,
+    });
     yield t.link(12, list, second, prev, {
       note: `Flip ${list.value(second)} to point backwards.`,
     });
@@ -83,6 +91,7 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
     yield t.note(14, {
       i: prev,
       vars: { prev, second: second ?? undefined },
+      note: `${list.value(prev)} is now the head of the reversed back half.`,
     });
   }
 
@@ -118,6 +127,9 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
     second = n2;
     yield t.note(24, {
       vars: { first: first ?? undefined, second: second ?? undefined },
+      note: second === null
+        ? 'The back half is exhausted — the weave is done.'
+        : 'Both cursors advance to the next pair to interleave.',
     });
   }
 

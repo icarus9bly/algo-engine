@@ -35,7 +35,10 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   let start = 0;
   let bestL = 0;
   let bestR = 0;
-  yield t.note(2, { vars: { best, curr } });
+  yield t.note(2, {
+    vars: { best, curr },
+    note: 'best starts at the first value, since the answer may be entirely negative.',
+  });
 
   for (let i = 0; i < a.length; i++) {
     if (curr < 0) {
