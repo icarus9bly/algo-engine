@@ -23,6 +23,13 @@ const sizeOf = (s: Structure) => {
   return s.nodes.length;
 };
 
+/** Node values of a graph, in creation order. */
+const graphOf = (structures: Structure[], id: string): string => {
+  const s = structures.find((st) => st.id === id);
+  if (!s || s.kind !== 'graph') return '';
+  return s.nodes.map((n) => `${n.value}:${[...n.edges].sort((a, b) => a - b).join('')}`).join(' ');
+};
+
 /** A grid rendered as `row; row; row`, matching the input notation. */
 const gridOf = (structures: Structure[], id: string): string => {
   const s = structures.find((st) => st.id === id);
@@ -284,6 +291,55 @@ const cases: Case[] = [
   { id: 'pacific-atlantic', input: { heights: '1,2,3; 8,9,4; 7,6,5' }, expect: '(0,2) (1,0) (1,1) (1,2) (2,0) (2,1) (2,2)', got: (v) => (v.result as string[]).join(' ') },
   { id: 'pacific-atlantic', input: { heights: '1' }, expect: '(0,0)', got: (v) => (v.result as string[]).join(' ') },
   { id: 'pacific-atlantic', input: { heights: '3,3; 3,3' }, expect: '(0,0) (0,1) (1,0) (1,1)', got: (v) => (v.result as string[]).join(' ') },
+  // Graphs
+  { id: 'number-of-connected-components', input: { n: 5, edges: '0-1, 1-2, 3-4' }, expect: 2, got: (v) => v.result },
+  { id: 'number-of-connected-components', input: { n: 5, edges: '0-1, 1-2, 2-3, 3-4' }, expect: 1, got: (v) => v.result },
+  { id: 'number-of-connected-components', input: { n: 4, edges: '' }, expect: 4, got: (v) => v.result },
+  { id: 'graph-valid-tree', input: { n: 5, edges: '0-1, 0-2, 0-3, 1-4' }, expect: true, got: (v) => v.result },
+  { id: 'graph-valid-tree', input: { n: 5, edges: '0-1, 1-2, 2-3, 1-3, 1-4' }, expect: false, got: (v) => v.result },
+  { id: 'graph-valid-tree', input: { n: 4, edges: '0-1, 2-3' }, expect: false, got: (v) => v.result },
+  { id: 'graph-valid-tree', input: { n: 1, edges: '' }, expect: true, got: (v) => v.result },
+  { id: 'course-schedule', input: { n: 4, prerequisites: '1>0, 2>1, 3>2' }, expect: true, got: (v) => v.result },
+  { id: 'course-schedule', input: { n: 2, prerequisites: '1>0, 0>1' }, expect: false, got: (v) => v.result },
+  { id: 'course-schedule', input: { n: 3, prerequisites: '' }, expect: true, got: (v) => v.result },
+  { id: 'clone-graph', input: { n: 4, edges: '0-1, 1-2, 2-3, 3-0' }, expect: '0:13 1:02 2:13 3:02', got: (_v, s) => graphOf(s, 'clone') },
+  { id: 'clone-graph', input: { n: 1, edges: '' }, expect: '0:', got: (_v, s) => graphOf(s, 'clone') },
+  { id: 'clone-graph', input: { n: 2, edges: '0-1' }, expect: '0:1 1:0', got: (_v, s) => graphOf(s, 'clone') },
+  // Advanced Graphs
+  { id: 'alien-dictionary', input: { words: ['wrt', 'wrf', 'er', 'ett', 'rftt'] }, expect: 'wertf', got: (v) => v.result },
+  { id: 'alien-dictionary', input: { words: ['z', 'x'] }, expect: 'zx', got: (v) => v.result },
+  { id: 'alien-dictionary', input: { words: ['z', 'x', 'z'] }, expect: '', got: (v) => v.result },
+  { id: 'alien-dictionary', input: { words: ['abc', 'ab'] }, expect: '', got: (v) => v.result },
+  // Tries
+  { id: 'implement-trie', input: { words: ['apple', 'app', 'apply'], query: 'app' }, expect: true, got: (v) => v.search },
+  { id: 'implement-trie', input: { words: ['apple'], query: 'app' }, expect: false, got: (v) => v.search },
+  { id: 'implement-trie', input: { words: ['apple'], query: 'app' }, expect: true, got: (v) => v.startsWith },
+  { id: 'implement-trie', input: { words: ['apple'], query: 'bat' }, expect: false, got: (v) => v.startsWith },
+  { id: 'add-and-search-words', input: { words: ['bad', 'dad', 'mad'], query: 'b..' }, expect: true, got: (v) => v.result },
+  { id: 'add-and-search-words', input: { words: ['bad', 'dad', 'mad'], query: '.ad' }, expect: true, got: (v) => v.result },
+  { id: 'add-and-search-words', input: { words: ['bad'], query: 'pad' }, expect: false, got: (v) => v.result },
+  { id: 'add-and-search-words', input: { words: ['bad'], query: 'ba' }, expect: false, got: (v) => v.result },
+  { id: 'word-search-ii', input: { board: 'oaan; etae; ihkr', words: ['oath', 'eat', 'rain'] }, expect: 'oath,eat', got: (v) => (v.result as string[]).join(',') },
+  { id: 'word-search-ii', input: { board: 'ab; cd', words: ['abcb'] }, expect: '', got: (v) => (v.result as string[]).join(',') },
+  // Intervals
+  { id: 'insert-interval', input: { intervals: '1-3, 6-9', newInterval: '2-5' }, expect: '1–5 6–9', got: (_v, s) => arr(s, 'res').join(' ') },
+  { id: 'insert-interval', input: { intervals: '1-2, 3-5, 6-7, 8-10, 12-16', newInterval: '4-8' }, expect: '1–2 3–10 12–16', got: (_v, s) => arr(s, 'res').join(' ') },
+  { id: 'insert-interval', input: { intervals: '', newInterval: '5-7' }, expect: '5–7', got: (_v, s) => arr(s, 'res').join(' ') },
+  { id: 'merge-intervals', input: { intervals: '1-3, 2-6, 8-10, 15-18' }, expect: '1–6 8–10 15–18', got: (_v, s) => arr(s, 'res').join(' ') },
+  { id: 'merge-intervals', input: { intervals: '1-4, 4-5' }, expect: '1–5', got: (_v, s) => arr(s, 'res').join(' ') },
+  { id: 'merge-intervals', input: { intervals: '5-6, 1-2' }, expect: '1–2 5–6', got: (_v, s) => arr(s, 'res').join(' ') },
+  { id: 'non-overlapping-intervals', input: { intervals: '1-2, 2-3, 3-4, 1-3' }, expect: 1, got: (v) => v.result },
+  { id: 'non-overlapping-intervals', input: { intervals: '1-2, 1-2, 1-2' }, expect: 2, got: (v) => v.result },
+  { id: 'non-overlapping-intervals', input: { intervals: '1-2, 2-3' }, expect: 0, got: (v) => v.result },
+  { id: 'meeting-rooms', input: { intervals: '0-30, 5-10, 15-20' }, expect: false, got: (v) => v.result },
+  { id: 'meeting-rooms', input: { intervals: '7-10, 2-4' }, expect: true, got: (v) => v.result },
+  { id: 'meeting-rooms-ii', input: { intervals: '0-30, 5-10, 15-20' }, expect: 2, got: (v) => v.result },
+  { id: 'meeting-rooms-ii', input: { intervals: '7-10, 2-4' }, expect: 1, got: (v) => v.result },
+  { id: 'meeting-rooms-ii', input: { intervals: '1-5, 2-6, 3-7' }, expect: 3, got: (v) => v.result },
+  // Backtracking
+  { id: 'combination-sum', input: { candidates: [2, 3, 6, 7], target: 7 }, expect: '[2,2,3] [7]', got: (v) => (v.res as string[]).join(' ') },
+  { id: 'combination-sum', input: { candidates: [2, 3, 5], target: 8 }, expect: '[2,2,2,2] [2,3,3] [3,5]', got: (v) => (v.res as string[]).join(' ') },
+  { id: 'combination-sum', input: { candidates: [2], target: 1 }, expect: '', got: (v) => (v.res as string[]).join(' ') },
 ];
 
 let failures = 0;

@@ -1,6 +1,11 @@
 import { bestTimeToBuySellStock } from './algorithms/bestTimeToBuySellStock';
 import { bubbleSort } from './algorithms/bubbleSort';
+import { addAndSearchWords } from './algorithms/addAndSearchWords';
+import { alienDictionary } from './algorithms/alienDictionary';
 import { binaryTreeMaxPathSum } from './algorithms/binaryTreeMaxPathSum';
+import { cloneGraph } from './algorithms/cloneGraph';
+import { combinationSum } from './algorithms/combinationSum';
+import { courseSchedule } from './algorithms/courseSchedule';
 import { climbingStairs } from './algorithms/climbingStairs';
 import { coinChange } from './algorithms/coinChange';
 import { constructTreeFromTraversals } from './algorithms/constructTreeFromTraversals';
@@ -11,7 +16,10 @@ import { decodeWays } from './algorithms/decodeWays';
 import { encodeDecodeStrings } from './algorithms/encodeDecodeStrings';
 import { findMedianFromDataStream } from './algorithms/findMedianFromDataStream';
 import { findMinRotated } from './algorithms/findMinRotated';
+import { graphValidTree } from './algorithms/graphValidTree';
 import { groupAnagrams } from './algorithms/groupAnagrams';
+import { implementTrie } from './algorithms/implementTrie';
+import { insertInterval } from './algorithms/insertInterval';
 import { houseRobber } from './algorithms/houseRobber';
 import { houseRobberII } from './algorithms/houseRobberII';
 import { invertBinaryTree } from './algorithms/invertBinaryTree';
@@ -29,10 +37,15 @@ import { linkedListCycle } from './algorithms/linkedListCycle';
 import { maxDepthBinaryTree } from './algorithms/maxDepthBinaryTree';
 import { maxProductSubarray } from './algorithms/maxProductSubarray';
 import { maximumSubarray } from './algorithms/maximumSubarray';
+import { meetingRooms } from './algorithms/meetingRooms';
+import { meetingRoomsII } from './algorithms/meetingRoomsII';
+import { mergeIntervals } from './algorithms/mergeIntervals';
 import { mergeKSortedLists } from './algorithms/mergeKSortedLists';
 import { mergeTwoSortedLists } from './algorithms/mergeTwoSortedLists';
 import { minimumWindowSubstring } from './algorithms/minimumWindowSubstring';
 import { missingNumber } from './algorithms/missingNumber';
+import { nonOverlappingIntervals } from './algorithms/nonOverlappingIntervals';
+import { numberOfConnectedComponents } from './algorithms/numberOfConnectedComponents';
 import { numberOfIslands } from './algorithms/numberOfIslands';
 import { numberOfOneBits } from './algorithms/numberOfOneBits';
 import { pacificAtlantic } from './algorithms/pacificAtlantic';
@@ -60,6 +73,7 @@ import { validParentheses } from './algorithms/validParentheses';
 import { validPalindrome } from './algorithms/validPalindrome';
 import { wordBreak } from './algorithms/wordBreak';
 import { wordSearch } from './algorithms/wordSearch';
+import { wordSearchII } from './algorithms/wordSearchII';
 import type { AlgorithmDef } from './types';
 
 /**
@@ -129,10 +143,27 @@ export const algorithms: AlgorithmDef[] = [
   maximumSubarray,
   jumpGame,
   // Backtracking
+  combinationSum,
   wordSearch,
+  // Tries
+  implementTrie,
+  addAndSearchWords,
+  wordSearchII,
   // Graphs
   numberOfIslands,
+  cloneGraph,
   pacificAtlantic,
+  courseSchedule,
+  graphValidTree,
+  numberOfConnectedComponents,
+  // Advanced Graphs
+  alienDictionary,
+  // Intervals
+  insertInterval,
+  mergeIntervals,
+  nonOverlappingIntervals,
+  meetingRooms,
+  meetingRoomsII,
   // Math & Geometry
   rotateImage,
   spiralMatrix,

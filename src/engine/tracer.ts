@@ -5,6 +5,8 @@ import type {
   EventType,
   ListNode,
   ListStructure,
+  GraphNode,
+  GraphStructure,
   GridStructure,
   Structure,
   TreeNode,
@@ -295,6 +297,73 @@ export class TracedGrid {
   }
 }
 
+/** A general graph; also backs tries, where a node's value is its letter. */
+export class TracedGraph {
+  readonly settled = new Set<number>();
+  readonly id: string;
+  readonly label: string;
+  readonly nodes: GraphNode[] = [];
+  readonly directed: boolean;
+  readonly layout: 'circle' | 'tree';
+  readonly pointerNames: string[] | null;
+
+  constructor(
+    id: string,
+    label: string,
+    directed: boolean,
+    layout: 'circle' | 'tree' = 'circle',
+    pointerNames: string[] | null = null,
+  ) {
+    this.id = id;
+    this.label = label;
+    this.directed = directed;
+    this.layout = layout;
+    this.pointerNames = pointerNames;
+  }
+
+  get length(): number {
+    return this.nodes.length;
+  }
+
+  add(value: Cell): number {
+    this.nodes.push({ value, edges: [] });
+    return this.nodes.length - 1;
+  }
+
+  value(i: number): Cell {
+    return this.nodes[i].value;
+  }
+
+  setValue(i: number, v: Cell): void {
+    this.nodes[i].value = v;
+  }
+
+  edges(i: number): number[] {
+    return this.nodes[i].edges;
+  }
+
+  /** Adds an edge; undirected graphs get the mirror edge too. */
+  connect(from: number, to: number): void {
+    if (!this.nodes[from].edges.includes(to)) this.nodes[from].edges.push(to);
+    if (!this.directed && !this.nodes[to].edges.includes(from)) {
+      this.nodes[to].edges.push(from);
+    }
+  }
+
+  snapshot(): GraphStructure {
+    return {
+      kind: 'graph',
+      id: this.id,
+      label: this.label,
+      nodes: this.nodes.map((n) => ({ value: n.value, edges: [...n.edges] })),
+      directed: this.directed,
+      layout: this.layout,
+      settled: [...this.settled].sort((a, b) => a - b),
+      pointerNames: this.pointerNames,
+    };
+  }
+}
+
 export interface EmitOpts {
   i?: number;
   j?: number;
@@ -348,6 +417,31 @@ export class Tracer {
     const list = new TracedList(id, label, pointerNames);
     this.structures.push(list);
     return list;
+  }
+
+  /** Registers a graph structure. Tries use this too. */
+  graph(
+    id: string,
+    label = id,
+    directed = false,
+    layout: 'circle' | 'tree' = 'circle',
+    pointerNames: string[] | null = null,
+  ): TracedGraph {
+    const graph = new TracedGraph(id, label, directed, layout, pointerNames);
+    this.structures.push(graph);
+    return graph;
+  }
+
+  /** Adds a graph edge, then emits. */
+  connect(
+    line: number,
+    graph: TracedGraph,
+    from: number,
+    to: number,
+    opts: EmitOpts = {},
+  ): AlgoEvent {
+    graph.connect(from, to);
+    return this.emit('write', line, { ...opts, target: graph, i: from, j: to });
   }
 
   /** Registers a matrix structure. */
@@ -486,7 +580,7 @@ export class Tracer {
   /** Marks positions as permanently final, then emits. */
   settle(
     line: number,
-    target: TracedArray | TracedList | TracedTree | TracedGrid,
+    target: TracedArray | TracedList | TracedTree | TracedGrid | TracedGraph,
     indices: number[],
     opts: EmitOpts = {},
   ): AlgoEvent {

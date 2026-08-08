@@ -123,18 +123,47 @@ export interface GridStructure {
   pointerNames: string[] | null;
 }
 
+export interface GraphNode {
+  value: Cell;
+  /** Indices of neighbours. Directed graphs only list outgoing edges. */
+  edges: number[];
+}
+
+/**
+ * A general graph. Nodes are laid out on a circle by the renderer, which needs
+ * no physics and keeps positions stable across frames — the same reason list
+ * and tree nodes hold still while their links change.
+ *
+ * Tries are graphs too: a trie node's `value` is its incoming character, so
+ * the same renderer draws both. `directed` only affects arrowheads.
+ */
+export interface GraphStructure {
+  kind: 'graph';
+  id: string;
+  label: string;
+  nodes: GraphNode[];
+  directed: boolean;
+  /**
+   * `circle` suits arbitrary graphs; `tree` layers by depth from node 0 and
+   * centres each parent over its children, which is what a trie needs.
+   */
+  layout: 'circle' | 'tree';
+  settled: number[];
+  pointerNames: string[] | null;
+}
+
 /**
  * A data structure the algorithm is working on, snapshotted at one event.
  *
- * Graphs and tries join this union as they arrive; each new `kind` gets its
- * own small renderer, and `StructureView` dispatches on the tag. Nothing else
- * in the engine needs to know the difference.
+ * Each `kind` gets its own small renderer and `StructureView` dispatches on
+ * the tag. Nothing else in the engine needs to know the difference.
  */
 export type Structure =
   | ArrayStructure
   | ListStructure
   | TreeStructure
-  | GridStructure;
+  | GridStructure
+  | GraphStructure;
 
 export interface AlgoEvent {
   type: EventType;
