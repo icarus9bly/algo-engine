@@ -14,7 +14,9 @@ import { containsDuplicate } from './algorithms/containsDuplicate';
 import { countingBits } from './algorithms/countingBits';
 import { decodeWays } from './algorithms/decodeWays';
 import { encodeDecodeStrings } from './algorithms/encodeDecodeStrings';
+import { boatsToSavePeople } from './algorithms/boatsToSavePeople';
 import { findMedianFromDataStream } from './algorithms/findMedianFromDataStream';
+import { fourSum } from './algorithms/fourSum';
 import { findMinRotated } from './algorithms/findMinRotated';
 import { graphValidTree } from './algorithms/graphValidTree';
 import { groupAnagrams } from './algorithms/groupAnagrams';
@@ -41,6 +43,8 @@ import { meetingRooms } from './algorithms/meetingRooms';
 import { meetingRoomsII } from './algorithms/meetingRoomsII';
 import { mergeIntervals } from './algorithms/mergeIntervals';
 import { mergeKSortedLists } from './algorithms/mergeKSortedLists';
+import { mergeSortedArray } from './algorithms/mergeSortedArray';
+import { mergeStringsAlternately } from './algorithms/mergeStringsAlternately';
 import { mergeTwoSortedLists } from './algorithms/mergeTwoSortedLists';
 import { minimumWindowSubstring } from './algorithms/minimumWindowSubstring';
 import { missingNumber } from './algorithms/missingNumber';
@@ -51,10 +55,13 @@ import { numberOfOneBits } from './algorithms/numberOfOneBits';
 import { pacificAtlantic } from './algorithms/pacificAtlantic';
 import { palindromicSubstrings } from './algorithms/palindromicSubstrings';
 import { productExceptSelf } from './algorithms/productExceptSelf';
+import { removeDuplicatesSorted } from './algorithms/removeDuplicatesSorted';
 import { removeNthFromEnd } from './algorithms/removeNthFromEnd';
 import { reorderList } from './algorithms/reorderList';
 import { reverseBits } from './algorithms/reverseBits';
 import { reverseLinkedList } from './algorithms/reverseLinkedList';
+import { reverseString } from './algorithms/reverseString';
+import { rotateArray } from './algorithms/rotateArray';
 import { rotateImage } from './algorithms/rotateImage';
 import { sameTree } from './algorithms/sameTree';
 import { serializeDeserializeTree } from './algorithms/serializeDeserializeTree';
@@ -65,12 +72,15 @@ import { searchRotated } from './algorithms/searchRotated';
 import { sumOfTwoIntegers } from './algorithms/sumOfTwoIntegers';
 import { threeSum } from './algorithms/threeSum';
 import { topKFrequent } from './algorithms/topKFrequent';
+import { trappingRainWater } from './algorithms/trappingRainWater';
 import { twoSum } from './algorithms/twoSum';
+import { twoSumII } from './algorithms/twoSumII';
 import { uniquePaths } from './algorithms/uniquePaths';
 import { validAnagram } from './algorithms/validAnagram';
 import { validateBST } from './algorithms/validateBST';
 import { validParentheses } from './algorithms/validParentheses';
 import { validPalindrome } from './algorithms/validPalindrome';
+import { validPalindromeII } from './algorithms/validPalindromeII';
 import { wordBreak } from './algorithms/wordBreak';
 import { wordSearch } from './algorithms/wordSearch';
 import { wordSearchII } from './algorithms/wordSearchII';
@@ -91,9 +101,19 @@ export const algorithms: AlgorithmDef[] = [
   productExceptSelf,
   longestConsecutive,
   // Two Pointers
+  reverseString,
   validPalindrome,
+  validPalindromeII,
+  mergeStringsAlternately,
+  mergeSortedArray,
+  removeDuplicatesSorted,
+  twoSumII,
   threeSum,
+  fourSum,
+  rotateArray,
   containerWithMostWater,
+  boatsToSavePeople,
+  trappingRainWater,
   // Sliding Window
   bestTimeToBuySellStock,
   longestSubstringWithoutRepeating,

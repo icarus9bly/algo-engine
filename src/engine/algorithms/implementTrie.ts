@@ -134,7 +134,7 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
 
 export const implementTrie: AlgorithmDef = {
   id: 'implement-trie',
-  name: 'Implement Trie (Prefix Tree)',
+  name: 'Implement Trie Prefix Tree',
   category: 'Tries',
   code,
   inputFields: [

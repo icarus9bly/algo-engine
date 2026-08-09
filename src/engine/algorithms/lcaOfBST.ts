@@ -73,7 +73,7 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
 
 export const lcaOfBST: AlgorithmDef = {
   id: 'lca-of-bst',
-  name: 'Lowest Common Ancestor of a BST',
+  name: 'Lowest Common Ancestor of a Binary Search Tree',
   category: 'Trees',
   code,
   inputFields: [

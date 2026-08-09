@@ -102,7 +102,7 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
 
 export const kthSmallestBST: AlgorithmDef = {
   id: 'kth-smallest-bst',
-  name: 'Kth Smallest Element In a BST',
+  name: 'Kth Smallest Element In a Bst',
   category: 'Trees',
   code,
   inputFields: [

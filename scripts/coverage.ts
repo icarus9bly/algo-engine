@@ -1,52 +1,189 @@
 import { algorithms } from '../src/engine/registry';
 
-/** The canonical Blind 75, by NeetCode section, with expected counts. */
-const EXPECTED: Record<string, number> = {
-  'Arrays & Hashing': 8,
-  'Two Pointers': 3,
-  'Sliding Window': 4,
-  Stack: 1,
-  'Binary Search': 2,
-  'Linked List': 6,
-  Trees: 11,
-  'Heap / Priority Queue': 1,
-  Backtracking: 2,
-  Tries: 3,
-  Graphs: 6,
-  'Advanced Graphs': 1,
-  '1-D Dynamic Programming': 10,
-  '2-D Dynamic Programming': 2,
-  Greedy: 2,
-  Intervals: 5,
-  'Math & Geometry': 3,
-  'Bit Manipulation': 5,
+/**
+ * The NeetCode 250, by section. This is the manifest the project is measured
+ * against; `npx tsx scripts/coverage.ts` diffs the registry against it by
+ * problem name and lists exactly what is missing.
+ */
+const NEETCODE_250: Record<string, string[]> = {
+  'Arrays & Hashing': [
+    'Concatenation of Array', 'Contains Duplicate', 'Valid Anagram', 'Two Sum',
+    'Longest Common Prefix', 'Group Anagrams', 'Remove Element', 'Majority Element',
+    'Design HashSet', 'Design HashMap', 'Sort an Array', 'Sort Colors',
+    'Top K Frequent Elements', 'Encode and Decode Strings',
+    'Range Sum Query 2D Immutable', 'Product of Array Except Self', 'Valid Sudoku',
+    'Longest Consecutive Sequence', 'Best Time to Buy And Sell Stock II',
+    'Majority Element II', 'Subarray Sum Equals K', 'First Missing Positive',
+  ],
+  'Two Pointers': [
+    'Reverse String', 'Valid Palindrome', 'Valid Palindrome II',
+    'Merge Strings Alternately', 'Merge Sorted Array',
+    'Remove Duplicates From Sorted Array', 'Two Sum II Input Array Is Sorted',
+    '3Sum', '4Sum', 'Rotate Array', 'Container With Most Water',
+    'Boats to Save People', 'Trapping Rain Water',
+  ],
+  'Sliding Window': [
+    'Contains Duplicate II', 'Best Time to Buy And Sell Stock',
+    'Longest Substring Without Repeating Characters',
+    'Longest Repeating Character Replacement', 'Permutation In String',
+    'Minimum Size Subarray Sum', 'Find K Closest Elements',
+    'Minimum Window Substring', 'Sliding Window Maximum',
+  ],
+  Stack: [
+    'Baseball Game', 'Valid Parentheses', 'Implement Stack Using Queues',
+    'Implement Queue using Stacks', 'Min Stack',
+    'Evaluate Reverse Polish Notation', 'Asteroid Collision',
+    'Daily Temperatures', 'Online Stock Span', 'Car Fleet', 'Simplify Path',
+    'Decode String', 'Maximum Frequency Stack', 'Largest Rectangle In Histogram',
+  ],
+  'Binary Search': [
+    'Binary Search', 'Search Insert Position', 'Guess Number Higher Or Lower',
+    'Sqrt(x)', 'Search a 2D Matrix', 'Koko Eating Bananas',
+    'Capacity to Ship Packages Within D Days',
+    'Find Minimum In Rotated Sorted Array', 'Search In Rotated Sorted Array',
+    'Search In Rotated Sorted Array II', 'Time Based Key Value Store',
+    'Split Array Largest Sum', 'Median of Two Sorted Arrays',
+    'Find in Mountain Array',
+  ],
+  'Linked List': [
+    'Reverse Linked List', 'Merge Two Sorted Lists', 'Linked List Cycle',
+    'Reorder List', 'Remove Nth Node From End of List',
+    'Copy List With Random Pointer', 'Add Two Numbers',
+    'Find The Duplicate Number', 'Reverse Linked List II',
+    'Design Circular Queue', 'LRU Cache', 'LFU Cache', 'Merge K Sorted Lists',
+    'Reverse Nodes In K Group',
+  ],
+  Trees: [
+    'Binary Tree Inorder Traversal', 'Binary Tree Preorder Traversal',
+    'Binary Tree Postorder Traversal', 'Invert Binary Tree',
+    'Maximum Depth of Binary Tree', 'Diameter of Binary Tree',
+    'Balanced Binary Tree', 'Same Tree', 'Subtree of Another Tree',
+    'Lowest Common Ancestor of a Binary Search Tree',
+    'Insert into a Binary Search Tree', 'Delete Node in a BST',
+    'Binary Tree Level Order Traversal', 'Binary Tree Right Side View',
+    'Construct Quad Tree', 'Count Good Nodes In Binary Tree',
+    'Validate Binary Search Tree', 'Kth Smallest Element In a Bst',
+    'Construct Binary Tree From Preorder And Inorder Traversal',
+    'House Robber III', 'Delete Leaves With a Given Value',
+    'Binary Tree Maximum Path Sum', 'Serialize And Deserialize Binary Tree',
+  ],
+  'Heap / Priority Queue': [
+    'Kth Largest Element In a Stream', 'Last Stone Weight',
+    'K Closest Points to Origin', 'Kth Largest Element In An Array',
+    'Task Scheduler', 'Design Twitter', 'Single Threaded CPU',
+    'Reorganize String', 'Longest Happy String', 'Car Pooling',
+    'Find Median From Data Stream', 'IPO',
+  ],
+  Backtracking: [
+    'Sum of All Subsets XOR Total', 'Subsets', 'Combination Sum',
+    'Combination Sum II', 'Combinations', 'Permutations', 'Subsets II',
+    'Permutations II', 'Generate Parentheses', 'Word Search',
+    'Palindrome Partitioning', 'Letter Combinations of a Phone Number',
+    'Matchsticks to Square', 'Partition to K Equal Sum Subsets', 'N Queens',
+    'N Queens II', 'Word Break II',
+  ],
+  Tries: [
+    'Implement Trie Prefix Tree', 'Design Add And Search Words Data Structure',
+    'Extra Characters in a String', 'Word Search II',
+  ],
+  Graphs: [
+    'Island Perimeter', 'Verifying An Alien Dictionary', 'Find the Town Judge',
+    'Number of Islands', 'Max Area of Island', 'Clone Graph',
+    'Walls And Gates', 'Rotting Oranges', 'Pacific Atlantic Water Flow',
+    'Surrounded Regions', 'Open The Lock', 'Course Schedule',
+    'Course Schedule II', 'Graph Valid Tree', 'Course Schedule IV',
+    'Number of Connected Components In An Undirected Graph',
+    'Redundant Connection', 'Accounts Merge', 'Evaluate Division',
+    'Minimum Height Trees', 'Word Ladder',
+  ],
+  'Advanced Graphs': [
+    'Path with Minimum Effort', 'Network Delay Time', 'Reconstruct Itinerary',
+    'Min Cost to Connect All Points', 'Swim In Rising Water',
+    'Alien Dictionary', 'Cheapest Flights Within K Stops',
+    'Find Critical and Pseudo Critical Edges in Minimum Spanning Tree',
+    'Build a Matrix With Conditions', 'Greatest Common Divisor Traversal',
+  ],
+  '1-D Dynamic Programming': [
+    'Climbing Stairs', 'Min Cost Climbing Stairs', 'N-th Tribonacci Number',
+    'House Robber', 'House Robber II', 'Longest Palindromic Substring',
+    'Palindromic Substrings', 'Decode Ways', 'Coin Change',
+    'Maximum Product Subarray', 'Word Break', 'Longest Increasing Subsequence',
+    'Partition Equal Subset Sum', 'Combination Sum IV', 'Perfect Squares',
+    'Integer Break', 'Stone Game III',
+  ],
+  '2-D Dynamic Programming': [
+    'Unique Paths', 'Unique Paths II', 'Minimum Path Sum',
+    'Longest Common Subsequence', 'Last Stone Weight II',
+    'Best Time to Buy And Sell Stock With Cooldown', 'Coin Change II',
+    'Target Sum', 'Interleaving String', 'Stone Game', 'Stone Game II',
+    'Longest Increasing Path In a Matrix', 'Distinct Subsequences',
+    'Edit Distance', 'Burst Balloons', 'Regular Expression Matching',
+  ],
+  Greedy: [
+    'Lemonade Change', 'Maximum Subarray', 'Maximum Sum Circular Subarray',
+    'Longest Turbulent Subarray', 'Jump Game', 'Jump Game II', 'Jump Game VII',
+    'Gas Station', 'Hand of Straights', 'Dota2 Senate',
+    'Merge Triplets to Form Target Triplet', 'Partition Labels',
+    'Valid Parenthesis String', 'Candy',
+  ],
+  Intervals: [
+    'Insert Interval', 'Merge Intervals', 'Non Overlapping Intervals',
+    'Meeting Rooms', 'Meeting Rooms II', 'Meeting Rooms III',
+    'Minimum Interval to Include Each Query',
+  ],
+  'Math & Geometry': [
+    'Excel Sheet Column Title', 'Greatest Common Divisor of Strings',
+    'Insert Greatest Common Divisors in Linked List', 'Transpose Matrix',
+    'Rotate Image', 'Spiral Matrix', 'Set Matrix Zeroes', 'Happy Number',
+    'Plus One', 'Roman to Integer', 'Pow(x, n)', 'Multiply Strings',
+    'Detect Squares',
+  ],
+  'Bit Manipulation': [
+    'Single Number', 'Number of 1 Bits', 'Counting Bits', 'Add Binary',
+    'Reverse Bits', 'Missing Number', 'Sum of Two Integers', 'Reverse Integer',
+    'Bitwise AND of Numbers Range', 'Minimum Array End',
+  ],
 };
 
-const counts = new Map<string, number>();
-for (const a of algorithms) {
-  counts.set(a.category, (counts.get(a.category) ?? 0) + 1);
+const have = new Map<string, string>();
+for (const a of algorithms) have.set(a.name, a.category);
+
+let done = 0;
+let target = 0;
+const misplaced: string[] = [];
+const missingBySection: [string, string[]][] = [];
+
+for (const [section, problems] of Object.entries(NEETCODE_250)) {
+  target += problems.length;
+  const missing: string[] = [];
+
+  for (const name of problems) {
+    const category = have.get(name);
+    if (category === undefined) {
+      missing.push(name);
+    } else {
+      done++;
+      if (category !== section) misplaced.push(`${name}: in "${category}", expected "${section}"`);
+    }
+  }
+
+  if (missing.length > 0) missingBySection.push([section, missing]);
+  const n = problems.length - missing.length;
+  console.log(`${n === problems.length ? 'ok  ' : '    '} ${section.padEnd(28)} ${n}/${problems.length}`);
 }
 
-let total = 0;
-let expectedTotal = 0;
-let bad = 0;
+const known = new Set(Object.values(NEETCODE_250).flat());
+const extra = algorithms.filter((a) => !known.has(a.name)).map((a) => a.name);
 
-for (const [section, want] of Object.entries(EXPECTED)) {
-  const have = counts.get(section) ?? 0;
-  total += have;
-  expectedTotal += want;
-  const ok = have === want;
-  if (!ok) bad++;
-  console.log(`${ok ? 'ok  ' : 'FAIL'} ${section.padEnd(28)} ${have}/${want}`);
+if (misplaced.length) console.log(`\nWRONG SECTION:\n  ${misplaced.join('\n  ')}`);
+if (extra.length) console.log(`\nOutside the 250: ${extra.join(', ')}`);
+
+if (process.argv.includes('--missing')) {
+  console.log('\nRemaining:');
+  for (const [section, missing] of missingBySection) {
+    console.log(`\n  ${section} (${missing.length})`);
+    for (const name of missing) console.log(`    ${name}`);
+  }
 }
 
-const extra = [...counts.keys()].filter((c) => !(c in EXPECTED));
-for (const section of extra) {
-  console.log(`     ${section.padEnd(28)} ${counts.get(section)} (outside the Blind 75)`);
-}
-
-const ids = algorithms.map((a) => a.id);
-const dupes = ids.filter((id, i) => ids.indexOf(id) !== i);
-if (dupes.length) console.log(`\nDUPLICATE IDS: ${dupes.join(', ')}`);
-
-console.log(`\n${total}/${expectedTotal} Blind 75 problems, ${bad} section(s) off`);
+console.log(`\n${done}/${target} NeetCode 250 problems — ${target - done} to go`);

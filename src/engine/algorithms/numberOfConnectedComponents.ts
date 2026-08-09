@@ -99,7 +99,7 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
 
 export const numberOfConnectedComponents: AlgorithmDef = {
   id: 'number-of-connected-components',
-  name: 'Number of Connected Components',
+  name: 'Number of Connected Components In An Undirected Graph',
   category: 'Graphs',
   code,
   inputFields: [
