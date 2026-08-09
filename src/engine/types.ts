@@ -45,6 +45,17 @@ export interface ArrayStructure {
   id: string;
   label: string;
   values: Cell[];
+  /**
+   * A stable identity per element, so the renderer can tell "the 29 moved left"
+   * from "this slot now holds 29" and animate the difference. Identity travels
+   * with the value through a swap, and stays with the slot through a write.
+   */
+  ids: number[];
+  /**
+   * `cells` is the default box row. `bars` sizes each element by its value,
+   * which only makes sense where magnitude is the point — sorting, heights.
+   */
+  display: 'cells' | 'bars';
   /** Positions permanently locked in as of this event. */
   settled: number[];
   /**

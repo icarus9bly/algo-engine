@@ -17,7 +17,7 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   const prices = input.prices as number[];
 
   const t = new Tracer();
-  const a = t.array('prices', prices, 'prices');
+  const a = t.array('prices', prices, 'prices', null, 'bars');
 
   yield t.note(1, { note: 'Buy once, sell once, later. One pass is enough.' });
 

@@ -16,7 +16,7 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   const height = input.height as number[];
 
   const t = new Tracer();
-  const a = t.array('height', height, 'height');
+  const a = t.array('height', height, 'height', null, 'bars');
 
   yield t.note(1, { note: 'Widest container first, then trade width for height only when it can pay off.' });
 

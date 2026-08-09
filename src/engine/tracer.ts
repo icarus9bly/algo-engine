@@ -26,12 +26,25 @@ export class TracedArray {
   readonly label: string;
   readonly values: Cell[];
   readonly pointerNames: string[] | null;
+  readonly display: 'cells' | 'bars';
+  /** Element identities, parallel to `values`. See `ArrayStructure.ids`. */
+  readonly ids: number[];
+  private nextId: number;
 
-  constructor(id: string, label: string, values: Cell[], pointerNames: string[] | null = null) {
+  constructor(
+    id: string,
+    label: string,
+    values: Cell[],
+    pointerNames: string[] | null = null,
+    display: 'cells' | 'bars' = 'cells',
+  ) {
     this.id = id;
     this.label = label;
     this.values = values;
     this.pointerNames = pointerNames;
+    this.display = display;
+    this.ids = values.map((_, i) => i);
+    this.nextId = values.length;
   }
 
   get length(): number {
@@ -54,12 +67,14 @@ export class TracedArray {
   /** Appends a value; returns its index. Used for stacks, queues and outputs. */
   pushCell(v: Cell): number {
     this.values.push(v);
+    this.ids.push(this.nextId++);
     return this.values.length - 1;
   }
 
   /** Removes and returns the last value. */
   popCell(): Cell | undefined {
     this.settled.delete(this.values.length - 1);
+    this.ids.pop();
     return this.values.pop();
   }
 
@@ -68,13 +83,19 @@ export class TracedArray {
     const moved = [...this.settled].filter((i) => i > 0).map((i) => i - 1);
     this.settled.clear();
     for (const i of moved) this.settled.add(i);
+    this.ids.shift();
     return this.values.shift();
   }
 
+  /** Identity travels with the value, which is what makes a swap animate. */
   swapCells(i: number, j: number): void {
     const tmp = this.values[i];
     this.values[i] = this.values[j];
     this.values[j] = tmp;
+
+    const tmpId = this.ids[i];
+    this.ids[i] = this.ids[j];
+    this.ids[j] = tmpId;
   }
 
   snapshot(): ArrayStructure {
@@ -83,6 +104,8 @@ export class TracedArray {
       id: this.id,
       label: this.label,
       values: [...this.values],
+      ids: [...this.ids],
+      display: this.display,
       settled: [...this.settled].sort((a, b) => a - b),
       pointerNames: this.pointerNames,
     };
@@ -401,9 +424,15 @@ export class Tracer {
    * structure, so a variable is only drawn under the one it actually indexes;
    * `[]` means "no pointers belong here".
    */
-  array(id: string, values: Cell[], label = id, pointerNames: string[] | null = null): TracedArray {
+  array(
+    id: string,
+    values: Cell[],
+    label = id,
+    pointerNames: string[] | null = null,
+    display: 'cells' | 'bars' = 'cells',
+  ): TracedArray {
     // Copy so the caller's default input is never mutated between runs.
-    const arr = new TracedArray(id, label, [...values], pointerNames);
+    const arr = new TracedArray(id, label, [...values], pointerNames, display);
     this.structures.push(arr);
     return arr;
   }

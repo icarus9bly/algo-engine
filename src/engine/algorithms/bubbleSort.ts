@@ -19,7 +19,7 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
   const nums = input.nums as number[];
 
   const t = new Tracer();
-  const a = t.array('nums', nums, 'nums');
+  const a = t.array('nums', nums, 'nums', null, 'bars');
 
   yield t.note(1, { note: 'Bubble the largest remaining value to the end of each pass.' });
 
