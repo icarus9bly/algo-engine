@@ -1,5 +1,6 @@
 import { bestTimeToBuySellStock } from './algorithms/bestTimeToBuySellStock';
 import { bubbleSort } from './algorithms/bubbleSort';
+import { candy } from './algorithms/candy';
 import { addAndSearchWords } from './algorithms/addAndSearchWords';
 import { alienDictionary } from './algorithms/alienDictionary';
 import { addBinary } from './algorithms/addBinary';
@@ -17,14 +18,17 @@ import { containerWithMostWater } from './algorithms/containerWithMostWater';
 import { containsDuplicate } from './algorithms/containsDuplicate';
 import { countingBits } from './algorithms/countingBits';
 import { decodeWays } from './algorithms/decodeWays';
+import { dota2Senate } from './algorithms/dota2Senate';
 import { encodeDecodeStrings } from './algorithms/encodeDecodeStrings';
 import { boatsToSavePeople } from './algorithms/boatsToSavePeople';
 import { findKClosestElements } from './algorithms/findKClosestElements';
 import { findMedianFromDataStream } from './algorithms/findMedianFromDataStream';
 import { fourSum } from './algorithms/fourSum';
+import { gasStation } from './algorithms/gasStation';
 import { findMinRotated } from './algorithms/findMinRotated';
 import { graphValidTree } from './algorithms/graphValidTree';
 import { groupAnagrams } from './algorithms/groupAnagrams';
+import { handOfStraights } from './algorithms/handOfStraights';
 import { implementTrie } from './algorithms/implementTrie';
 import { insertInterval } from './algorithms/insertInterval';
 import { integerBreak } from './algorithms/integerBreak';
@@ -32,8 +36,11 @@ import { houseRobber } from './algorithms/houseRobber';
 import { houseRobberII } from './algorithms/houseRobberII';
 import { invertBinaryTree } from './algorithms/invertBinaryTree';
 import { jumpGame } from './algorithms/jumpGame';
+import { jumpGameII } from './algorithms/jumpGameII';
+import { jumpGameVII } from './algorithms/jumpGameVII';
 import { kthSmallestBST } from './algorithms/kthSmallestBST';
 import { lcaOfBST } from './algorithms/lcaOfBST';
+import { lemonadeChange } from './algorithms/lemonadeChange';
 import { levelOrderTraversal } from './algorithms/levelOrderTraversal';
 import { longestCommonSubsequence } from './algorithms/longestCommonSubsequence';
 import { longestConsecutive } from './algorithms/longestConsecutive';
@@ -41,10 +48,12 @@ import { longestIncreasingSubsequence } from './algorithms/longestIncreasingSubs
 import { longestPalindromicSubstring } from './algorithms/longestPalindromicSubstring';
 import { longestRepeatingCharacterReplacement } from './algorithms/longestRepeatingCharacterReplacement';
 import { longestSubstringWithoutRepeating } from './algorithms/longestSubstringWithoutRepeating';
+import { longestTurbulentSubarray } from './algorithms/longestTurbulentSubarray';
 import { linkedListCycle } from './algorithms/linkedListCycle';
 import { maxDepthBinaryTree } from './algorithms/maxDepthBinaryTree';
 import { maxProductSubarray } from './algorithms/maxProductSubarray';
 import { maximumSubarray } from './algorithms/maximumSubarray';
+import { maxSumCircularSubarray } from './algorithms/maxSumCircularSubarray';
 import { meetingRooms } from './algorithms/meetingRooms';
 import { meetingRoomsII } from './algorithms/meetingRoomsII';
 import { mergeIntervals } from './algorithms/mergeIntervals';
@@ -54,6 +63,7 @@ import { minimumSizeSubarraySum } from './algorithms/minimumSizeSubarraySum';
 import { mergeKSortedLists } from './algorithms/mergeKSortedLists';
 import { mergeSortedArray } from './algorithms/mergeSortedArray';
 import { mergeStringsAlternately } from './algorithms/mergeStringsAlternately';
+import { mergeTriplets } from './algorithms/mergeTriplets';
 import { mergeTwoSortedLists } from './algorithms/mergeTwoSortedLists';
 import { minimumWindowSubstring } from './algorithms/minimumWindowSubstring';
 import { missingNumber } from './algorithms/missingNumber';
@@ -64,6 +74,7 @@ import { numberOfOneBits } from './algorithms/numberOfOneBits';
 import { pacificAtlantic } from './algorithms/pacificAtlantic';
 import { palindromicSubstrings } from './algorithms/palindromicSubstrings';
 import { partitionEqualSubsetSum } from './algorithms/partitionEqualSubsetSum';
+import { partitionLabels } from './algorithms/partitionLabels';
 import { perfectSquares } from './algorithms/perfectSquares';
 import { permutationInString } from './algorithms/permutationInString';
 import { productExceptSelf } from './algorithms/productExceptSelf';
@@ -98,6 +109,7 @@ import { validateBST } from './algorithms/validateBST';
 import { validParentheses } from './algorithms/validParentheses';
 import { validPalindrome } from './algorithms/validPalindrome';
 import { validPalindromeII } from './algorithms/validPalindromeII';
+import { validParenthesisString } from './algorithms/validParenthesisString';
 import { wordBreak } from './algorithms/wordBreak';
 import { wordSearch } from './algorithms/wordSearch';
 import { wordSearchII } from './algorithms/wordSearchII';
@@ -189,8 +201,20 @@ export const algorithms: AlgorithmDef[] = [
   uniquePaths,
   longestCommonSubsequence,
   // Greedy
+  lemonadeChange,
   maximumSubarray,
+  maxSumCircularSubarray,
+  longestTurbulentSubarray,
   jumpGame,
+  jumpGameII,
+  jumpGameVII,
+  gasStation,
+  handOfStraights,
+  dota2Senate,
+  mergeTriplets,
+  partitionLabels,
+  validParenthesisString,
+  candy,
   // Backtracking
   combinationSum,
   wordSearch,
