@@ -1,5 +1,7 @@
 import { bestTimeToBuySellStock } from './algorithms/bestTimeToBuySellStock';
 import { bubbleSort } from './algorithms/bubbleSort';
+import { burstBalloons } from './algorithms/burstBalloons';
+import { buySellWithCooldown } from './algorithms/buySellWithCooldown';
 import { candy } from './algorithms/candy';
 import { addAndSearchWords } from './algorithms/addAndSearchWords';
 import { alienDictionary } from './algorithms/alienDictionary';
@@ -13,12 +15,15 @@ import { containsDuplicateII } from './algorithms/containsDuplicateII';
 import { courseSchedule } from './algorithms/courseSchedule';
 import { climbingStairs } from './algorithms/climbingStairs';
 import { coinChange } from './algorithms/coinChange';
+import { coinChangeII } from './algorithms/coinChangeII';
 import { constructTreeFromTraversals } from './algorithms/constructTreeFromTraversals';
 import { containerWithMostWater } from './algorithms/containerWithMostWater';
 import { containsDuplicate } from './algorithms/containsDuplicate';
 import { countingBits } from './algorithms/countingBits';
 import { decodeWays } from './algorithms/decodeWays';
+import { distinctSubsequences } from './algorithms/distinctSubsequences';
 import { dota2Senate } from './algorithms/dota2Senate';
+import { editDistance } from './algorithms/editDistance';
 import { encodeDecodeStrings } from './algorithms/encodeDecodeStrings';
 import { boatsToSavePeople } from './algorithms/boatsToSavePeople';
 import { findKClosestElements } from './algorithms/findKClosestElements';
@@ -32,6 +37,7 @@ import { handOfStraights } from './algorithms/handOfStraights';
 import { implementTrie } from './algorithms/implementTrie';
 import { insertInterval } from './algorithms/insertInterval';
 import { integerBreak } from './algorithms/integerBreak';
+import { interleavingString } from './algorithms/interleavingString';
 import { houseRobber } from './algorithms/houseRobber';
 import { houseRobberII } from './algorithms/houseRobberII';
 import { invertBinaryTree } from './algorithms/invertBinaryTree';
@@ -44,6 +50,8 @@ import { lemonadeChange } from './algorithms/lemonadeChange';
 import { levelOrderTraversal } from './algorithms/levelOrderTraversal';
 import { longestCommonSubsequence } from './algorithms/longestCommonSubsequence';
 import { longestConsecutive } from './algorithms/longestConsecutive';
+import { lastStoneWeightII } from './algorithms/lastStoneWeightII';
+import { longestIncreasingPath } from './algorithms/longestIncreasingPath';
 import { longestIncreasingSubsequence } from './algorithms/longestIncreasingSubsequence';
 import { longestPalindromicSubstring } from './algorithms/longestPalindromicSubstring';
 import { longestRepeatingCharacterReplacement } from './algorithms/longestRepeatingCharacterReplacement';
@@ -58,6 +66,7 @@ import { meetingRooms } from './algorithms/meetingRooms';
 import { meetingRoomsII } from './algorithms/meetingRoomsII';
 import { mergeIntervals } from './algorithms/mergeIntervals';
 import { minCostClimbingStairs } from './algorithms/minCostClimbingStairs';
+import { minimumPathSum } from './algorithms/minimumPathSum';
 import { minimumArrayEnd } from './algorithms/minimumArrayEnd';
 import { minimumSizeSubarraySum } from './algorithms/minimumSizeSubarraySum';
 import { mergeKSortedLists } from './algorithms/mergeKSortedLists';
@@ -81,6 +90,7 @@ import { productExceptSelf } from './algorithms/productExceptSelf';
 import { removeDuplicatesSorted } from './algorithms/removeDuplicatesSorted';
 import { removeNthFromEnd } from './algorithms/removeNthFromEnd';
 import { reorderList } from './algorithms/reorderList';
+import { regexMatching } from './algorithms/regexMatching';
 import { reverseBits } from './algorithms/reverseBits';
 import { reverseInteger } from './algorithms/reverseInteger';
 import { reverseLinkedList } from './algorithms/reverseLinkedList';
@@ -103,7 +113,11 @@ import { trappingRainWater } from './algorithms/trappingRainWater';
 import { tribonacci } from './algorithms/tribonacci';
 import { twoSum } from './algorithms/twoSum';
 import { twoSumII } from './algorithms/twoSumII';
+import { stoneGame } from './algorithms/stoneGame';
+import { stoneGameII } from './algorithms/stoneGameII';
+import { targetSum } from './algorithms/targetSum';
 import { uniquePaths } from './algorithms/uniquePaths';
+import { uniquePathsII } from './algorithms/uniquePathsII';
 import { validAnagram } from './algorithms/validAnagram';
 import { validateBST } from './algorithms/validateBST';
 import { validParentheses } from './algorithms/validParentheses';
@@ -199,7 +213,21 @@ export const algorithms: AlgorithmDef[] = [
   stoneGameIII,
   // 2-D Dynamic Programming
   uniquePaths,
+  uniquePathsII,
+  minimumPathSum,
   longestCommonSubsequence,
+  lastStoneWeightII,
+  buySellWithCooldown,
+  coinChangeII,
+  targetSum,
+  interleavingString,
+  stoneGame,
+  stoneGameII,
+  longestIncreasingPath,
+  distinctSubsequences,
+  editDistance,
+  burstBalloons,
+  regexMatching,
   // Greedy
   lemonadeChange,
   maximumSubarray,

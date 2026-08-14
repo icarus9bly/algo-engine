@@ -1,10 +1,13 @@
 # algo engine
 
-A step-through visualization tool for the [Blind 75](https://neetcode.io/practice).
-Pick an algorithm, edit its input, and scrub through the run frame by frame with
-the source, the data and the variables all in sync.
+A step-through visualization tool for the
+[NeetCode 250](https://neetcode.io/practice). Pick an algorithm, edit its input,
+and scrub through the run frame by frame with the source, the data and the
+variables all in sync.
 
-All 75 problems are implemented.
+128 of the 250 are implemented, including all of the Blind 75. Six sections are
+complete: Two Pointers, Sliding Window, 1-D and 2-D Dynamic Programming, Greedy
+and Bit Manipulation.
 
 ```bash
 npm install
@@ -42,9 +45,9 @@ actually did.
 
 `compare` · `swap` · `read` · `write` · `found` · `settle` · `note`
 
-That set covered all 75 problems — arrays, strings, stacks, queues, DP tables,
-bit rows, linked lists, trees, heaps, grids, graphs and tries. Nothing has
-needed a seventh. Notably, "move a pointer" is not an event: pointers are
+That set has covered every problem so far — arrays, strings, stacks, queues, DP
+tables, bit rows, linked lists, trees, heaps, grids, graphs and tries. Nothing
+has needed a seventh. Notably, "move a pointer" is not an event: pointers are
 variables, and the renderers draw them from the variable snapshot.
 
 ## Five structure kinds
@@ -78,7 +81,7 @@ Two decisions do most of the work:
 src/engine/types.ts          event and structure schema
 src/engine/tracer.ts         Tracer + TracedArray/List/Tree/Grid/Graph
 src/engine/useEventTrace.ts  runs a generator once, caches the events
-src/engine/registry.ts       the 75 problems, in Blind 75 section order
+src/engine/registry.ts       every problem, in NeetCode 250 section order
 src/engine/algorithms/       one file per problem
 src/components/              renderers, code pane, timeline
 scripts/                     verification
@@ -87,7 +90,7 @@ scripts/                     verification
 ## Verification
 
 ```bash
-npm run verify     # 223 assertions
+npm run verify     # 399 assertions
 ```
 
 Each case asserts the actual answer and checks every event for out-of-range
@@ -96,7 +99,8 @@ check has caught real bugs — highlighting a line that doesn't exist — in thr
 separate batches of work.
 
 ```bash
-npx tsx scripts/coverage.ts   # confirms 75/75 against the section counts
+npx tsx scripts/coverage.ts   # diffs the registry against the 250 manifest
+npx tsx scripts/coverage.ts --missing   # lists what is left, by section
 npx tsx scripts/notes.ts      # locates un-narrated frames by type and line
 ```
 
