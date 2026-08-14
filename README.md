@@ -5,9 +5,9 @@ A step-through visualization tool for the
 and scrub through the run frame by frame with the source, the data and the
 variables all in sync.
 
-128 of the 250 are implemented, including all of the Blind 75. Six sections are
-complete: Two Pointers, Sliding Window, 1-D and 2-D Dynamic Programming, Greedy
-and Bit Manipulation.
+143 of the 250 are implemented, including all of the Blind 75. Seven sections are
+complete: Two Pointers, Sliding Window, 1-D and 2-D Dynamic Programming, Greedy,
+Bit Manipulation and Backtracking.
 
 ```bash
 npm install
@@ -90,7 +90,7 @@ scripts/                     verification
 ## Verification
 
 ```bash
-npm run verify     # 399 assertions
+npm run verify     # 461 assertions
 ```
 
 Each case asserts the actual answer and checks every event for out-of-range

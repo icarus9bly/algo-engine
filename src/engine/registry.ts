@@ -10,7 +10,9 @@ import { binaryTreeMaxPathSum } from './algorithms/binaryTreeMaxPathSum';
 import { bitwiseAndOfRange } from './algorithms/bitwiseAndOfRange';
 import { cloneGraph } from './algorithms/cloneGraph';
 import { combinationSum } from './algorithms/combinationSum';
+import { combinationSumII } from './algorithms/combinationSumII';
 import { combinationSumIV } from './algorithms/combinationSumIV';
+import { combinations } from './algorithms/combinations';
 import { containsDuplicateII } from './algorithms/containsDuplicateII';
 import { courseSchedule } from './algorithms/courseSchedule';
 import { climbingStairs } from './algorithms/climbingStairs';
@@ -31,6 +33,7 @@ import { findMedianFromDataStream } from './algorithms/findMedianFromDataStream'
 import { fourSum } from './algorithms/fourSum';
 import { gasStation } from './algorithms/gasStation';
 import { findMinRotated } from './algorithms/findMinRotated';
+import { generateParentheses } from './algorithms/generateParentheses';
 import { graphValidTree } from './algorithms/graphValidTree';
 import { groupAnagrams } from './algorithms/groupAnagrams';
 import { handOfStraights } from './algorithms/handOfStraights';
@@ -51,6 +54,7 @@ import { levelOrderTraversal } from './algorithms/levelOrderTraversal';
 import { longestCommonSubsequence } from './algorithms/longestCommonSubsequence';
 import { longestConsecutive } from './algorithms/longestConsecutive';
 import { lastStoneWeightII } from './algorithms/lastStoneWeightII';
+import { letterCombinations } from './algorithms/letterCombinations';
 import { longestIncreasingPath } from './algorithms/longestIncreasingPath';
 import { longestIncreasingSubsequence } from './algorithms/longestIncreasingSubsequence';
 import { longestPalindromicSubstring } from './algorithms/longestPalindromicSubstring';
@@ -58,6 +62,7 @@ import { longestRepeatingCharacterReplacement } from './algorithms/longestRepeat
 import { longestSubstringWithoutRepeating } from './algorithms/longestSubstringWithoutRepeating';
 import { longestTurbulentSubarray } from './algorithms/longestTurbulentSubarray';
 import { linkedListCycle } from './algorithms/linkedListCycle';
+import { matchsticksToSquare } from './algorithms/matchsticksToSquare';
 import { maxDepthBinaryTree } from './algorithms/maxDepthBinaryTree';
 import { maxProductSubarray } from './algorithms/maxProductSubarray';
 import { maximumSubarray } from './algorithms/maximumSubarray';
@@ -114,6 +119,15 @@ import { tribonacci } from './algorithms/tribonacci';
 import { twoSum } from './algorithms/twoSum';
 import { twoSumII } from './algorithms/twoSumII';
 import { stoneGame } from './algorithms/stoneGame';
+import { nQueens } from './algorithms/nQueens';
+import { nQueensII } from './algorithms/nQueensII';
+import { palindromePartitioning } from './algorithms/palindromePartitioning';
+import { partitionKSubsets } from './algorithms/partitionKSubsets';
+import { permutations } from './algorithms/permutations';
+import { permutationsII } from './algorithms/permutationsII';
+import { subsetXORSum } from './algorithms/subsetXORSum';
+import { subsets } from './algorithms/subsets';
+import { subsetsII } from './algorithms/subsetsII';
 import { stoneGameII } from './algorithms/stoneGameII';
 import { targetSum } from './algorithms/targetSum';
 import { uniquePaths } from './algorithms/uniquePaths';
@@ -125,6 +139,7 @@ import { validPalindrome } from './algorithms/validPalindrome';
 import { validPalindromeII } from './algorithms/validPalindromeII';
 import { validParenthesisString } from './algorithms/validParenthesisString';
 import { wordBreak } from './algorithms/wordBreak';
+import { wordBreakII } from './algorithms/wordBreakII';
 import { wordSearch } from './algorithms/wordSearch';
 import { wordSearchII } from './algorithms/wordSearchII';
 import type { AlgorithmDef } from './types';
@@ -244,8 +259,23 @@ export const algorithms: AlgorithmDef[] = [
   validParenthesisString,
   candy,
   // Backtracking
+  subsetXORSum,
+  subsets,
   combinationSum,
+  combinationSumII,
+  combinations,
+  permutations,
+  subsetsII,
+  permutationsII,
+  generateParentheses,
   wordSearch,
+  palindromePartitioning,
+  letterCombinations,
+  matchsticksToSquare,
+  partitionKSubsets,
+  nQueens,
+  nQueensII,
+  wordBreakII,
   // Tries
   implementTrie,
   addAndSearchWords,
