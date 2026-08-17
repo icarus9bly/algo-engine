@@ -109,7 +109,7 @@ function* run(input: AlgoInput): Generator<AlgoEvent> {
     state.set(ch, 'visiting');
     yield t.read(21, { target: g, i: at, note: `Resolve everything that must follow '${ch}'.` });
 
-    for (const nb of g.edges(at)) {
+    for (const nb of g.neighbours(at)) {
       const nextCh = String(g.value(nb));
       yield t.note(22, {
         target: g,

@@ -134,9 +134,23 @@ export interface GridStructure {
   pointerNames: string[] | null;
 }
 
+export interface GraphEdge {
+  from: number;
+  to: number;
+  /**
+   * Absent on unweighted graphs, and the renderer labels an edge only when it
+   * is present — so an unweighted graph looks exactly as it always did.
+   */
+  weight?: number;
+}
+
 export interface GraphNode {
   value: Cell;
-  /** Indices of neighbours. Directed graphs only list outgoing edges. */
+  /**
+   * Indices into `GraphStructure.edges` — the edges touching this node, not the
+   * neighbours themselves. Going one level of indirection is what gives an edge
+   * an identity: something to weigh, to highlight, and to settle.
+   */
   edges: number[];
 }
 
@@ -153,6 +167,12 @@ export interface GraphStructure {
   id: string;
   label: string;
   nodes: GraphNode[];
+  /**
+   * Every edge in the graph; node adjacency indexes into this. An undirected
+   * edge is one object listed in *both* endpoints, which is why the renderer
+   * draws a single line without having to filter a mirrored duplicate.
+   */
+  edges: GraphEdge[];
   directed: boolean;
   /**
    * `circle` suits arbitrary graphs; `tree` layers by depth from node 0 and
@@ -160,6 +180,11 @@ export interface GraphStructure {
    */
   layout: 'circle' | 'tree';
   settled: number[];
+  /**
+   * Edge positions permanently final — membership of a spanning tree, a chosen
+   * route. The edge counterpart of `settled`.
+   */
+  settledEdges: number[];
   pointerNames: string[] | null;
 }
 
@@ -193,6 +218,12 @@ export interface AlgoEvent {
   j?: number;
   /** Extra highlighted positions beyond i/j. */
   indices?: number[];
+  /**
+   * Highlighted *edge* positions, indices into a graph's `edges`. Edges get
+   * their own field rather than sharing `indices`, so `i`, `j` and `indices`
+   * keep meaning node positions in every structure without exception.
+   */
+  edgeIndices?: number[];
   /** One short sentence explaining this step, shown in the status bar. */
   note?: string;
   vars: Record<string, VarValue>;

@@ -30,10 +30,22 @@ export function buildGraph(
   if (!Number.isInteger(n) || n < 0) throw new Error('n must be a non-negative integer.');
   if (n > 12) throw new Error('Keep the graph to 12 nodes or fewer.');
   for (let i = 0; i < n; i++) graph.add(i);
+
+  // A repeated pair in the input is silently ignored rather than becoming a
+  // second parallel edge. `TracedGraph.connect` deliberately does not filter —
+  // deciding that a typed-twice edge was a typo is input hygiene, and this is
+  // the function that reads the typing. Problems that genuinely want parallel
+  // edges (Reconstruct Itinerary) build their graph without this helper.
+  const seen = new Set<string>();
   for (const [a, b] of edges) {
     if (a < 0 || b < 0 || a >= n || b >= n) {
       throw new Error(`Edge ${a}-${b} refers to a node outside 0..${n - 1}.`);
     }
+    const key = graph.directed
+      ? `${a}>${b}`
+      : `${Math.min(a, b)}-${Math.max(a, b)}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
     graph.connect(a, b);
   }
 }

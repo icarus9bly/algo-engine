@@ -5,6 +5,7 @@ import type {
   EventType,
   ListNode,
   ListStructure,
+  GraphEdge,
   GraphNode,
   GraphStructure,
   GridStructure,
@@ -323,9 +324,12 @@ export class TracedGrid {
 /** A general graph; also backs tries, where a node's value is its letter. */
 export class TracedGraph {
   readonly settled = new Set<number>();
+  readonly settledEdges = new Set<number>();
   readonly id: string;
   readonly label: string;
   readonly nodes: GraphNode[] = [];
+  /** Every edge, in creation order. Node adjacency indexes into this. */
+  readonly edges: GraphEdge[] = [];
   readonly directed: boolean;
   readonly layout: 'circle' | 'tree';
   readonly pointerNames: string[] | null;
@@ -361,16 +365,56 @@ export class TracedGraph {
     this.nodes[i].value = v;
   }
 
-  edges(i: number): number[] {
+  /** The edge positions touching node `i`. */
+  incident(i: number): number[] {
     return this.nodes[i].edges;
   }
 
-  /** Adds an edge; undirected graphs get the mirror edge too. */
-  connect(from: number, to: number): void {
-    if (!this.nodes[from].edges.includes(to)) this.nodes[from].edges.push(to);
-    if (!this.directed && !this.nodes[to].edges.includes(from)) {
-      this.nodes[to].edges.push(from);
+  /** The node positions reachable from `i` — each incident edge's other end. */
+  neighbours(i: number): number[] {
+    return this.nodes[i].edges.map((e) => {
+      const edge = this.edges[e];
+      return edge.from === i ? edge.to : edge.from;
+    });
+  }
+
+  edge(e: number): GraphEdge {
+    return this.edges[e];
+  }
+
+  /**
+   * The position of an existing edge between `a` and `b`, or null. An
+   * undirected graph matches either orientation, which is what lets a traversal
+   * that meets the same edge from both ends record it only once.
+   */
+  edgeBetween(a: number, b: number): number | null {
+    for (const e of this.nodes[a].edges) {
+      const edge = this.edges[e];
+      const forward = edge.from === a && edge.to === b;
+      const backward = edge.from === b && edge.to === a;
+      if (this.directed ? forward : forward || backward) return e;
     }
+    return null;
+  }
+
+  weight(e: number): number {
+    const w = this.edges[e].weight;
+    if (w === undefined) throw new Error(`Edge ${e} has no weight.`);
+    return w;
+  }
+
+  /**
+   * Adds an edge and returns its position. Repeated pairs are *not* filtered —
+   * that is input hygiene, and `buildGraph` owns it — so parallel edges are
+   * simply what happens when you connect the same pair twice.
+   */
+  connect(from: number, to: number, weight?: number): number {
+    const at = this.edges.length;
+    this.edges.push(weight === undefined ? { from, to } : { from, to, weight });
+    this.nodes[from].edges.push(at);
+    // An undirected edge belongs to both ends; a self-loop is listed once.
+    if (!this.directed && to !== from) this.nodes[to].edges.push(at);
+    return at;
   }
 
   snapshot(): GraphStructure {
@@ -379,9 +423,11 @@ export class TracedGraph {
       id: this.id,
       label: this.label,
       nodes: this.nodes.map((n) => ({ value: n.value, edges: [...n.edges] })),
+      edges: this.edges.map((e) => ({ ...e })),
       directed: this.directed,
       layout: this.layout,
       settled: [...this.settled].sort((a, b) => a - b),
+      settledEdges: [...this.settledEdges].sort((a, b) => a - b),
       pointerNames: this.pointerNames,
     };
   }
@@ -391,6 +437,8 @@ export interface EmitOpts {
   i?: number;
   j?: number;
   indices?: number[];
+  /** Highlighted edge positions, for graph targets. */
+  edgeIndices?: number[];
   /**
    * Which structure `i`/`j`/`indices` point into. Defaults to the first one
    * registered.
@@ -461,16 +509,37 @@ export class Tracer {
     return graph;
   }
 
-  /** Adds a graph edge, then emits. */
+  /**
+   * Adds a graph edge, then emits with both endpoints *and* the new edge
+   * highlighted. Pass `weight` to make it a weighted edge.
+   */
   connect(
     line: number,
     graph: TracedGraph,
     from: number,
     to: number,
+    opts: EmitOpts & { weight?: number } = {},
+  ): AlgoEvent {
+    const { weight, ...rest } = opts;
+    const at = graph.connect(from, to, weight);
+    return this.emit('write', line, {
+      ...rest,
+      target: graph,
+      i: from,
+      j: to,
+      edgeIndices: [at],
+    });
+  }
+
+  /** Marks edge positions as permanently final, then emits. */
+  settleEdge(
+    line: number,
+    graph: TracedGraph,
+    edgeIndices: number[],
     opts: EmitOpts = {},
   ): AlgoEvent {
-    graph.connect(from, to);
-    return this.emit('write', line, { ...opts, target: graph, i: from, j: to });
+    for (const e of edgeIndices) graph.settledEdges.add(e);
+    return this.emit('settle', line, { ...opts, target: graph, edgeIndices });
   }
 
   /** Registers a matrix structure. */
@@ -557,6 +626,7 @@ export class Tracer {
       i: opts.i,
       j: opts.j,
       indices: opts.indices,
+      edgeIndices: opts.edgeIndices,
       note: opts.note,
       vars,
       structures: this.structures.map((s) => s.snapshot()),

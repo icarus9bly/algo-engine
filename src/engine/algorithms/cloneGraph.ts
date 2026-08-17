@@ -41,7 +41,7 @@ function* dfs(
     note: `Create a copy of node ${src.value(node)}.`,
   });
 
-  for (const nb of src.edges(node)) {
+  for (const nb of src.neighbours(node)) {
     yield t.read(8, {
       target: src,
       i: node,
@@ -49,9 +49,22 @@ function* dfs(
       note: `Original node ${src.value(node)} links to ${src.value(nb)}.`,
     });
     const copiedNb = yield* dfs(t, src, dst, copies, nb);
-    yield t.connect(9, dst, copy, copiedNb, {
-      note: `Link the copies of ${src.value(node)} and ${src.value(nb)}.`,
-    });
+    const already = dst.edgeBetween(copy, copiedNb);
+    if (already === null) {
+      yield t.connect(9, dst, copy, copiedNb, {
+        note: `Link the copies of ${src.value(node)} and ${src.value(nb)}.`,
+      });
+    } else {
+      yield t.note(9, {
+        target: dst,
+        i: copy,
+        j: copiedNb,
+        edgeIndices: [already],
+        note:
+          `The copies of ${src.value(node)} and ${src.value(nb)} are already linked. An undirected edge is met ` +
+          `from both ends, but it is one edge, so it is recorded once.`,
+      });
+    }
   }
 
   return copy;

@@ -33,7 +33,7 @@ function* dfs(
     note: `Node ${node} belongs to the component being explored.`,
   });
 
-  for (const next of g.edges(node)) {
+  for (const next of g.neighbours(node)) {
     if (seen.has(next)) {
       yield t.compare(17, {
         target: g,

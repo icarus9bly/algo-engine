@@ -417,7 +417,44 @@ body {
 .edge {
   stroke: #4a566e;
   stroke-width: 1.5;
+  /* The arrow marker paints with currentColor, so it follows the role too. */
+  color: #4a566e;
+  transition: stroke 120ms ease, color 120ms ease;
 }
+
+.edge--compare { stroke: var(--compare); color: var(--compare); }
+.edge--swap    { stroke: var(--swap);    color: var(--swap); }
+.edge--read    { stroke: var(--read);    color: var(--read); }
+.edge--write   { stroke: var(--write);   color: var(--write); }
+.edge--found   { stroke: var(--found);   color: var(--found); }
+.edge--settle,
+.edge--settled {
+  stroke: var(--settled);
+  color: var(--settled);
+  stroke-width: 2.5;
+}
+.edge--note    { stroke: var(--text-faint); color: var(--text-faint); }
+
+/* Sits under the weight so the edge does not run through the digits. */
+.edge__weight-bg {
+  fill: var(--panel);
+  stroke: none;
+}
+
+.edge__weight {
+  fill: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 10px;
+  text-anchor: middle;
+}
+
+.edge__weight--compare { fill: var(--compare); }
+.edge__weight--swap    { fill: var(--swap); }
+.edge__weight--read    { fill: var(--read); }
+.edge__weight--write   { fill: var(--write); }
+.edge__weight--found   { fill: var(--found); }
+.edge__weight--settle,
+.edge__weight--settled { fill: var(--found); }
 
 /* ---------- grids ---------- */
 

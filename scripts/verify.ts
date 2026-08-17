@@ -23,11 +23,22 @@ const sizeOf = (s: Structure) => {
   return s.nodes.length;
 };
 
-/** Node values of a graph, in creation order. */
+/**
+ * Node values of a graph with their neighbours, in creation order. `n.edges`
+ * holds edge positions, so each one is resolved to its other endpoint — the
+ * expectations below are written in terms of neighbours, not edge ids.
+ */
 const graphOf = (structures: Structure[], id: string): string => {
   const s = structures.find((st) => st.id === id);
   if (!s || s.kind !== 'graph') return '';
-  return s.nodes.map((n) => `${n.value}:${[...n.edges].sort((a, b) => a - b).join('')}`).join(' ');
+  return s.nodes
+    .map((n, i) => {
+      const nbrs = n.edges
+        .map((e) => (s.edges[e].from === i ? s.edges[e].to : s.edges[e].from))
+        .sort((a, b) => a - b);
+      return `${n.value}:${nbrs.join('')}`;
+    })
+    .join(' ');
 };
 
 /** A grid rendered as `row; row; row`, matching the input notation. */
@@ -617,12 +628,22 @@ for (const c of cases) {
     return idxs.some((n) => n < 0 || n >= sizeOf(st));
   });
 
+  // The edge counterpart of the check above. Edge positions live in their own
+  // space, so they need their own bound — and `edgeIndices` pointing at
+  // anything but a graph is a bug in itself.
+  const badEdge = events.find((e) => {
+    if (!e.edgeIndices?.length) return false;
+    const st = e.structures.find((s) => s.id === (e.structureId ?? e.structures[0]?.id));
+    if (!st || st.kind !== 'graph') return true;
+    return e.edgeIndices.some((n) => n < 0 || n >= st.edges.length);
+  });
+
   // Every frame must narrate itself; a blank note shows the placeholder hint
   // in the status bar, which reads as a broken frame.
   const blank = events.filter((e) => !e.note).length;
 
   const actual = last ? c.got(last.vars as Vars, last.structures, events) : undefined;
-  const ok = !err && !badLine && !badIdx && !blank && String(actual) === String(c.expect);
+  const ok = !err && !badLine && !badIdx && !badEdge && !blank && String(actual) === String(c.expect);
   if (!ok) failures++;
 
   console.log(
@@ -633,6 +654,7 @@ for (const c of cases) {
       err ? `${err} ` : '',
       badLine ? `BAD-LINE:${badLine.line} ` : '',
       badIdx ? `BAD-INDEX:${JSON.stringify([badIdx.i, badIdx.j, badIdx.indices])} ` : '',
+      badEdge ? `BAD-EDGE:${JSON.stringify(badEdge.edgeIndices)} ` : '',
       blank ? `BLANK-NOTES:${blank} ` : '',
       ok ? '' : `expected ${JSON.stringify(c.expect)} got ${JSON.stringify(actual)} `,
       `in ${JSON.stringify(c.input)}`,

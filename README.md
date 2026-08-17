@@ -102,6 +102,7 @@ separate batches of work.
 npx tsx scripts/coverage.ts   # diffs the registry against the 250 manifest
 npx tsx scripts/coverage.ts --missing   # lists what is left, by section
 npx tsx scripts/notes.ts      # locates un-narrated frames by type and line
+npx tsx scripts/layout.ts     # checks graph geometry, which verify cannot see
 ```
 
 ## Adding a problem

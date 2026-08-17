@@ -52,7 +52,7 @@ function* dfs(
     note: `Start course ${course}; it is now on the path being explored.`,
   });
 
-  for (const next of g.edges(course)) {
+  for (const next of g.neighbours(course)) {
     yield t.note(13, {
       i: course,
       j: next,

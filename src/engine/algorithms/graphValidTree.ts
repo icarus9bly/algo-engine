@@ -31,7 +31,7 @@ function* dfs(
     note: `Reached node ${node}.`,
   });
 
-  for (const next of g.edges(node)) {
+  for (const next of g.neighbours(node)) {
     if (next === parent) {
       yield t.compare(13, {
         target: g,
